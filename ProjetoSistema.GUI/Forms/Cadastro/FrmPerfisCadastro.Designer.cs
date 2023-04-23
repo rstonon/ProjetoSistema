@@ -1,6 +1,6 @@
 ﻿namespace GUI
 {
-    partial class FrmUsuariosCadastro
+    partial class FrmPerfisCadastro
     {
         /// <summary>
         /// Required designer variable.
@@ -28,16 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmUsuariosCadastro));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmPerfisCadastro));
             btnCancelar = new Button();
             btnSalvar = new Button();
             button5 = new Button();
             pnBotoes = new Panel();
             pnDados = new Panel();
-            label6 = new Label();
-            cbxPerfil = new ComboBox();
-            textBox3 = new TextBox();
-            label3 = new Label();
+            button3 = new Button();
+            textBox4 = new TextBox();
+            label4 = new Label();
+            button2 = new Button();
+            button1 = new Button();
+            DgvDados = new DataGridView();
             label5 = new Label();
             cbxStatus = new ComboBox();
             textBox2 = new TextBox();
@@ -46,6 +48,7 @@
             label1 = new Label();
             pnBotoes.SuspendLayout();
             pnDados.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)DgvDados).BeginInit();
             SuspendLayout();
             // 
             // btnCancelar
@@ -113,10 +116,12 @@
             // 
             // pnDados
             // 
-            pnDados.Controls.Add(label6);
-            pnDados.Controls.Add(cbxPerfil);
-            pnDados.Controls.Add(textBox3);
-            pnDados.Controls.Add(label3);
+            pnDados.Controls.Add(button3);
+            pnDados.Controls.Add(textBox4);
+            pnDados.Controls.Add(label4);
+            pnDados.Controls.Add(button2);
+            pnDados.Controls.Add(button1);
+            pnDados.Controls.Add(DgvDados);
             pnDados.Controls.Add(label5);
             pnDados.Controls.Add(cbxStatus);
             pnDados.Controls.Add(textBox2);
@@ -130,46 +135,95 @@
             pnDados.Size = new Size(1114, 729);
             pnDados.TabIndex = 2;
             // 
-            // label6
+            // button3
             // 
-            label6.AutoSize = true;
-            label6.Location = new Point(752, 18);
-            label6.Margin = new Padding(4, 0, 4, 0);
-            label6.Name = "label6";
-            label6.Size = new Size(34, 15);
-            label6.TabIndex = 14;
-            label6.Text = "Perfil";
+            button3.Cursor = Cursors.Hand;
+            button3.FlatAppearance.BorderColor = Color.Silver;
+            button3.FlatStyle = FlatStyle.Flat;
+            button3.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            button3.Image = (Image)resources.GetObject("button3.Image");
+            button3.Location = new Point(580, 88);
+            button3.Margin = new Padding(4, 3, 4, 3);
+            button3.Name = "button3";
+            button3.Size = new Size(30, 30);
+            button3.TabIndex = 18;
+            button3.TextAlign = ContentAlignment.MiddleLeft;
+            button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
             // 
-            // cbxPerfil
+            // textBox4
             // 
-            cbxPerfil.DropDownStyle = ComboBoxStyle.DropDownList;
-            cbxPerfil.FormattingEnabled = true;
-            cbxPerfil.Items.AddRange(new object[] { "Ativo", "Inativo" });
-            cbxPerfil.Location = new Point(755, 36);
-            cbxPerfil.Margin = new Padding(4, 3, 4, 3);
-            cbxPerfil.Name = "cbxPerfil";
-            cbxPerfil.Size = new Size(194, 23);
-            cbxPerfil.TabIndex = 13;
+            textBox4.Location = new Point(303, 95);
+            textBox4.Margin = new Padding(4, 3, 4, 3);
+            textBox4.MaxLength = 50;
+            textBox4.Name = "textBox4";
+            textBox4.Size = new Size(269, 23);
+            textBox4.TabIndex = 16;
             // 
-            // textBox3
+            // label4
             // 
-            textBox3.Location = new Point(478, 36);
-            textBox3.Margin = new Padding(4, 3, 4, 3);
-            textBox3.MaxLength = 50;
-            textBox3.Name = "textBox3";
-            textBox3.PasswordChar = '*';
-            textBox3.Size = new Size(269, 23);
-            textBox3.TabIndex = 5;
+            label4.AutoSize = true;
+            label4.Location = new Point(303, 77);
+            label4.Margin = new Padding(4, 0, 4, 0);
+            label4.Name = "label4";
+            label4.Size = new Size(57, 15);
+            label4.TabIndex = 17;
+            label4.Text = "Pesquisar";
             // 
-            // label3
+            // button2
             // 
-            label3.AutoSize = true;
-            label3.Location = new Point(478, 18);
-            label3.Margin = new Padding(4, 0, 4, 0);
-            label3.Name = "label3";
-            label3.Size = new Size(39, 15);
-            label3.TabIndex = 6;
-            label3.Text = "Senha";
+            button2.Cursor = Cursors.Hand;
+            button2.FlatAppearance.BorderColor = Color.Silver;
+            button2.FlatStyle = FlatStyle.Flat;
+            button2.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            button2.Image = (Image)resources.GetObject("button2.Image");
+            button2.ImageAlign = ContentAlignment.MiddleRight;
+            button2.Location = new Point(159, 88);
+            button2.Margin = new Padding(4, 3, 4, 3);
+            button2.Name = "button2";
+            button2.Size = new Size(136, 30);
+            button2.TabIndex = 15;
+            button2.Text = "Excluir";
+            button2.TextAlign = ContentAlignment.MiddleLeft;
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
+            // 
+            // button1
+            // 
+            button1.Cursor = Cursors.Hand;
+            button1.FlatAppearance.BorderColor = Color.Silver;
+            button1.FlatStyle = FlatStyle.Flat;
+            button1.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            button1.Image = (Image)resources.GetObject("button1.Image");
+            button1.ImageAlign = ContentAlignment.MiddleRight;
+            button1.Location = new Point(15, 88);
+            button1.Margin = new Padding(4, 3, 4, 3);
+            button1.Name = "button1";
+            button1.Size = new Size(136, 30);
+            button1.TabIndex = 14;
+            button1.Text = "Adicionar";
+            button1.TextAlign = ContentAlignment.MiddleLeft;
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
+            // DgvDados
+            // 
+            DgvDados.AllowUserToAddRows = false;
+            DgvDados.AllowUserToDeleteRows = false;
+            DgvDados.AllowUserToResizeColumns = false;
+            DgvDados.AllowUserToResizeRows = false;
+            DgvDados.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            DgvDados.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            DgvDados.Location = new Point(15, 124);
+            DgvDados.Margin = new Padding(4, 3, 4, 3);
+            DgvDados.Name = "DgvDados";
+            DgvDados.ReadOnly = true;
+            DgvDados.RowHeadersWidth = 35;
+            DgvDados.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            DgvDados.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            DgvDados.Size = new Size(1086, 593);
+            DgvDados.TabIndex = 13;
+            DgvDados.Text = "dataGridView1";
             // 
             // label5
             // 
@@ -198,7 +252,7 @@
             textBox2.Margin = new Padding(4, 3, 4, 3);
             textBox2.MaxLength = 50;
             textBox2.Name = "textBox2";
-            textBox2.Size = new Size(269, 23);
+            textBox2.Size = new Size(425, 23);
             textBox2.TabIndex = 0;
             textBox2.Click += textBox2_Click;
             // 
@@ -208,9 +262,9 @@
             label2.Location = new Point(201, 18);
             label2.Margin = new Padding(4, 0, 4, 0);
             label2.Name = "label2";
-            label2.Size = new Size(47, 15);
+            label2.Size = new Size(58, 15);
             label2.TabIndex = 0;
-            label2.Text = "Usuário";
+            label2.Text = "Descrição";
             // 
             // textBox1
             // 
@@ -232,7 +286,7 @@
             label1.TabIndex = 0;
             label1.Text = "Id";
             // 
-            // FrmUsuariosCadastro
+            // FrmPerfisCadastro
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -244,14 +298,15 @@
             Margin = new Padding(4, 3, 4, 3);
             MaximizeBox = false;
             MinimizeBox = false;
-            Name = "FrmUsuariosCadastro";
+            Name = "FrmPerfisCadastro";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Cadastro de Usuarios";
-            Load += FrmUsuarioCadastro_Load;
+            Text = "Cadastro de Perfis";
+            Load += FrmPermissoesCadastro_Load;
             KeyDown += FrmColaboradoresTipoCadastro_KeyDown;
             pnBotoes.ResumeLayout(false);
             pnDados.ResumeLayout(false);
             pnDados.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)DgvDados).EndInit();
             ResumeLayout(false);
         }
 
@@ -268,9 +323,11 @@
         private System.Windows.Forms.Label label1;
         private Label label5;
         private ComboBox cbxStatus;
-        private TextBox textBox3;
-        private Label label3;
-        private Label label6;
-        private ComboBox cbxPerfil;
+        private Button button3;
+        private TextBox textBox4;
+        private Label label4;
+        private Button button2;
+        private Button button1;
+        protected DataGridView DgvDados;
     }
 }

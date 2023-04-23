@@ -41,6 +41,7 @@
             usuáriosToolStripMenuItem = new ToolStripMenuItem();
             statusStrip1 = new StatusStrip();
             usuarioIDStatusLabel = new ToolStripStatusLabel();
+            perfisDeUsuárioToolStripMenuItem = new ToolStripMenuItem();
             menuStrip2.SuspendLayout();
             statusStrip1.SuspendLayout();
             SuspendLayout();
@@ -103,7 +104,7 @@
             // 
             // adminToolStripMenuItem
             // 
-            adminToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { permissõesToolStripMenuItem, usuáriosToolStripMenuItem });
+            adminToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { perfisDeUsuárioToolStripMenuItem, permissõesToolStripMenuItem, usuáriosToolStripMenuItem });
             adminToolStripMenuItem.Name = "adminToolStripMenuItem";
             adminToolStripMenuItem.Size = new Size(55, 20);
             adminToolStripMenuItem.Text = "Admin";
@@ -111,14 +112,14 @@
             // permissõesToolStripMenuItem
             // 
             permissõesToolStripMenuItem.Name = "permissõesToolStripMenuItem";
-            permissõesToolStripMenuItem.Size = new Size(133, 22);
+            permissõesToolStripMenuItem.Size = new Size(180, 22);
             permissõesToolStripMenuItem.Text = "Permissões";
             permissõesToolStripMenuItem.Click += permissõesToolStripMenuItem_Click;
             // 
             // usuáriosToolStripMenuItem
             // 
             usuáriosToolStripMenuItem.Name = "usuáriosToolStripMenuItem";
-            usuáriosToolStripMenuItem.Size = new Size(133, 22);
+            usuáriosToolStripMenuItem.Size = new Size(180, 22);
             usuáriosToolStripMenuItem.Text = "Usuários";
             usuáriosToolStripMenuItem.Click += usuáriosToolStripMenuItem_Click;
             // 
@@ -136,6 +137,13 @@
             usuarioIDStatusLabel.Name = "usuarioIDStatusLabel";
             usuarioIDStatusLabel.Size = new Size(117, 17);
             usuarioIDStatusLabel.Text = "usuarioIDStatusLabel";
+            // 
+            // perfisDeUsuárioToolStripMenuItem
+            // 
+            perfisDeUsuárioToolStripMenuItem.Name = "perfisDeUsuárioToolStripMenuItem";
+            perfisDeUsuárioToolStripMenuItem.Size = new Size(180, 22);
+            perfisDeUsuárioToolStripMenuItem.Text = "Perfis de Usuário";
+            perfisDeUsuárioToolStripMenuItem.Click += perfisDeUsuárioToolStripMenuItem_Click;
             // 
             // FrmMenu
             // 
@@ -175,5 +183,6 @@
         private ToolStripMenuItem usuáriosToolStripMenuItem;
         private StatusStrip statusStrip1;
         public ToolStripStatusLabel usuarioIDStatusLabel;
+        private ToolStripMenuItem perfisDeUsuárioToolStripMenuItem;
     }
 }

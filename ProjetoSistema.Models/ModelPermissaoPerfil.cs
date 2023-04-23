@@ -6,24 +6,24 @@ using System.Threading.Tasks;
 
 namespace ProjetoSistema.Model
 {
-    public class ModelPermissaoUsuario
+    public class ModelPermissaoPerfil
     {
-        public ModelPermissaoUsuario()
+        public ModelPermissaoPerfil()
         {
             PermissaoUsuarioId = 0;
-            UsuarioId = 0;
+            PerfilId = 0;
             PermissaoId = 0;
         }
 
-        public ModelPermissaoUsuario(int permissaoUsuarioId, int usuarioId, int permissaoId)
+        public ModelPermissaoPerfil(int permissaoUsuarioId, int perfilId, int permissaoId)
         {
             PermissaoUsuarioId = permissaoUsuarioId;
-            UsuarioId = usuarioId;
+            PerfilId = perfilId;
             PermissaoId = permissaoId;
         }
 
         public int PermissaoUsuarioId { get; set; }
-        public int UsuarioId { get; set; }
+        public int PerfilId { get; set; }
         public int PermissaoId { get; set; }
 
     }

@@ -44,12 +44,14 @@ namespace ProjetoSistema.DAL
                     Connection = _conn.ObjetoConexao,
                     CommandText = "INSERT INTO sis_usuarios SET " +
                                         "Status_Id = @status, " +
+                                        "Perfil_Id = @perfil, " +
                                         "nome_usuario = @nome, " +
                                         "senha = @senha; " +
                                         "SELECT @@IDENTITY;",
                 };
 
                 cmd.Parameters.AddWithValue("@status", 1);
+                cmd.Parameters.AddWithValue("@perfil", model.PerfilId);
                 cmd.Parameters.AddWithValue("@nome", model.NomeUsuario);
                 cmd.Parameters.AddWithValue("@senha", MD5Hash(model.Senha));
                 _conn.Conectar();
@@ -72,12 +74,14 @@ namespace ProjetoSistema.DAL
                     Connection = _conn.ObjetoConexao,
                     CommandText = "UPDATE sis_usuarios SET " +
                                         "Status_Id = @status, " +
+                                        "Perfil_Id = @perfil, " +
                                         "nome_usuario = @nome, " +
                                         "senha = @senha " +
                                         "WHERE usuario_Id = @id;",
                 };
 
                 cmd.Parameters.AddWithValue("@status", model.StatusId);
+                cmd.Parameters.AddWithValue("@perfil", model.PerfilId);
                 cmd.Parameters.AddWithValue("@nome", model.NomeUsuario);
                 cmd.Parameters.AddWithValue("@senha", MD5Hash(model.Senha));
                 cmd.Parameters.AddWithValue("@id", model.UsuarioId);
@@ -167,6 +171,7 @@ namespace ProjetoSistema.DAL
                 dr.Read();
                 model.UsuarioId = Convert.ToInt32(dr["usuario_id"]);
                 model.StatusId = Convert.ToInt32(dr["status_id"]);
+                model.PerfilId = Convert.ToInt32(dr["perfil_id"]);
                 model.NomeUsuario = Convert.ToString(dr["nome_usuario"]);
                 model.Senha = Convert.ToString(dr["senha"]);
                 lista.Add(model);

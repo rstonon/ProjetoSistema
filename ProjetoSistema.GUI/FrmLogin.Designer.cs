@@ -80,7 +80,7 @@
             BtnFechar.Margin = new Padding(4, 3, 4, 3);
             BtnFechar.Name = "BtnFechar";
             BtnFechar.Size = new Size(86, 35);
-            BtnFechar.TabIndex = 3;
+            BtnFechar.TabIndex = 4;
             BtnFechar.Text = "Sair";
             BtnFechar.TextAlign = ContentAlignment.MiddleLeft;
             BtnFechar.UseVisualStyleBackColor = true;
@@ -98,7 +98,7 @@
             BtnAcessar.Margin = new Padding(4, 3, 4, 3);
             BtnAcessar.Name = "BtnAcessar";
             BtnAcessar.Size = new Size(247, 35);
-            BtnAcessar.TabIndex = 4;
+            BtnAcessar.TabIndex = 3;
             BtnAcessar.Text = "Acessar";
             BtnAcessar.UseVisualStyleBackColor = true;
             BtnAcessar.Click += BtnAcessar_Click;

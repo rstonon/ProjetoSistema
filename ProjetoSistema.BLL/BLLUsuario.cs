@@ -23,11 +23,15 @@ namespace ProjetoSistema.BLL
         {
             if (obj.NomeUsuario.Trim().Length.Equals(0))
             {
-                throw new Exception("O Nome do Usuário é obrigatório!");
+                throw new Exception("O Nome do Usuário é obrigatório.");
             }
             if (obj.Senha.Trim().Length.Equals(0))
             {
-                throw new Exception("A Senha do Usuário é obrigatório!");
+                throw new Exception("A Senha do Usuário é obrigatório.");
+            }
+            if (obj.PerfilId <= 0)
+            {
+                throw new Exception("O Perfil do Usuário é obrigatório.");
             }
 
             DALUsuario d = new(_conn);
@@ -47,6 +51,10 @@ namespace ProjetoSistema.BLL
             if (obj.Senha.Trim().Length.Equals(0))
             {
                 throw new Exception("A Senha do Usuário é obrigatório!");
+            }
+            if (obj.PerfilId <= 0)
+            {
+                throw new Exception("O Perfil do Usuário é obrigatório.");
             }
 
             DALUsuario d = new(_conn);

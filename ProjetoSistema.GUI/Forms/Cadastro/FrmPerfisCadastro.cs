@@ -5,14 +5,14 @@ using ProjetoSistema.Models;
 
 namespace GUI
 {
-    public partial class FrmUsuariosCadastro : Form
+    public partial class FrmPerfisCadastro : Form
     {
         public int codigo;
         public string operacao;
         public string origem;
-        FrmUsuarios form;
+        FrmPerfis form;
 
-        public FrmUsuariosCadastro(FrmUsuarios form)
+        public FrmPerfisCadastro(FrmPerfis form)
         {
             InitializeComponent();
             this.form = form;
@@ -36,16 +36,14 @@ namespace GUI
             {
                 try
                 {
-                    ModelUsuario model = new()
+                    ModelPerfilUsuario model = new()
                     {
                         StatusId = Convert.ToInt32(cbxStatus.SelectedValue),
-                        NomeUsuario = textBox2.Text,
-                        Senha = textBox3.Text,
-                        PerfilId = Convert.ToInt32(cbxPerfil.SelectedValue)
+                        NomePerfil = textBox2.Text,
                     };
 
                     DALConexao conn = new(DadosConexao.StringConexao);
-                    BLLUsuario bll = new(conn);
+                    BLLPerfilUsuario bll = new(conn);
 
                     if (operacao.Equals("Inclusão"))
                     {
@@ -53,7 +51,7 @@ namespace GUI
                     }
                     else
                     {
-                        model.UsuarioId = Convert.ToInt32(textBox1.Text);
+                        model.PerfilUsuarioId = Convert.ToInt32(textBox1.Text);
                         bll.Editar(model);
                     }
                     this.LimparDados();
@@ -81,18 +79,13 @@ namespace GUI
             Cancelar();
         }
 
-        private void FrmUsuarioCadastro_Load(object sender, EventArgs e)
+        private void FrmPermissoesCadastro_Load(object sender, EventArgs e)
         {
             DALConexao conn = new(DadosConexao.StringConexao);
             BLLStatus bll = new(conn);
             cbxStatus.DataSource = bll.PesquisaSql();
             cbxStatus.DisplayMember = "descricao_status";
             cbxStatus.ValueMember = "status_id";
-
-            BLLPerfilUsuario bllPerfil = new(conn);
-            cbxPerfil.DataSource = bllPerfil.PesquisaSql("Descrição", "Ativo", "");
-            cbxPerfil.DisplayMember = "nome_perfil";
-            cbxPerfil.ValueMember = "perfil_usuario_id";
 
             //cbxStatus.SelectedValue = 1;
 
@@ -106,14 +99,13 @@ namespace GUI
                 try
                 {
                     DALConexao conn = new(DadosConexao.StringConexao);
-                    BLLUsuario bll = new(conn);
-                    ModelUsuario model = bll.Abrir(codigo);
-                    textBox1.Text = model.UsuarioId.ToString();
+                    BLLPerfilUsuario bll = new(conn);
+                    ModelPerfilUsuario model = bll.Abrir(codigo);
+                    textBox1.Text = model.PerfilUsuarioId.ToString();
                     cbxStatus.SelectedValue = model.StatusId;
-                    textBox2.Text = model.NomeUsuario;
-                    textBox3.Text = model.Senha;
-                    cbxPerfil.SelectedValue = model.PerfilId;
+                    textBox2.Text = model.NomePerfil;
 
+                    CarregarPermissoes();
                 }
                 catch (Exception ex)
                 {
@@ -144,6 +136,64 @@ namespace GUI
 
         private void textBox2_Click(object sender, EventArgs e)
         {
+            if (!String.IsNullOrEmpty(textBox2.Text))
+            {
+                textBox2.SelectionStart = 0;
+                textBox2.SelectionLength = textBox2.Text.Length;
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            FrmPermissoes f = new();
+            f.codigoPerfil = Convert.ToInt32(textBox1.Text);
+            f.pnSelecionar.Visible = true;
+            f.ShowDialog();
+            CarregarPermissoes();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            ExcluirPermissao();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            CarregarPermissoes();
+        }
+
+        public void CarregarPermissoes()
+        {
+            DALConexao conn = new(DadosConexao.StringConexao);
+            BLLPermissaoPerfil bll = new(conn);
+            DgvDados.DataSource = bll.PesquisaSql(Convert.ToInt32(textBox1.Text), textBox4.Text);
+
+            DgvDados.Columns[0].HeaderText = "Código";
+            DgvDados.Columns[0].Width = 80;
+            DgvDados.Columns[0].Visible = false;
+            DgvDados.Columns[1].HeaderText = "Tela";
+            DgvDados.Columns[1].Width = 250;
+            DgvDados.Columns[2].HeaderText = "Descrição";
+            DgvDados.Columns[2].Width = 550;
+        }
+
+        public void ExcluirPermissao()
+        {
+            try
+            {
+                DialogResult d = MessageBox.Show("Deseja realmente excluir a permissão?", "Aviso", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (d.ToString().Equals("Yes"))
+                {
+                    DALConexao conn = new(DadosConexao.StringConexao);
+                    BLLPermissaoPerfil bll = new(conn);
+                    bll.Excluir(Convert.ToInt32(DgvDados.CurrentRow.Cells[0].Value.ToString()));
+                    CarregarPermissoes();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

@@ -64,5 +64,13 @@ namespace ProjetoSistema.GUI
         {
             Application.Exit();
         }
+
+        private void perfisDeUsuárioToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //if (UsuarioConfig.TemPermissao("brand.form"))
+            //{
+                OpenForm(typeof(FrmPerfis));
+            //}
+        }
     }
 }

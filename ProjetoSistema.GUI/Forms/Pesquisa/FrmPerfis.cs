@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace GUI
 {
-    public partial class FrmPermissoes : Form
+    public partial class FrmPerfis : Form
     {
 
         public int codigo = 0;
@@ -46,7 +46,7 @@ namespace GUI
         public void PesquisaSql()
         {
             DALConexao conn = new(DadosConexao.StringConexao);
-            BLLPermissao bll = new(conn);
+            BLLPerfilUsuario bll = new(conn);
 
             DgvDados.DataSource = bll.PesquisaSql(cbxPesquisarPor.Text, cbxStatus.Text, txtPalavraChave.Text);
 
@@ -59,10 +59,8 @@ namespace GUI
             DgvDados.Columns[0].HeaderText = "Código";
             DgvDados.Columns[0].Width = 80;
             DgvDados.Columns[0].Visible = false;
-            DgvDados.Columns[1].HeaderText = "Tela";
-            DgvDados.Columns[1].Width = 250;
-            DgvDados.Columns[2].HeaderText = "Descrição";
-            DgvDados.Columns[2].Width = 550;
+            DgvDados.Columns[1].HeaderText = "Perfil";
+            DgvDados.Columns[1].Width = 550;
 
             DgvDados.Focus();
         }
@@ -112,7 +110,7 @@ namespace GUI
 
         private void Novo()
         {
-            FrmPermissoesCadastro f = new(this)
+            FrmPerfisCadastro f = new(this)
             {
                 operacao = "Inclusão"
             };
@@ -134,7 +132,7 @@ namespace GUI
                 return;
             }
 
-            FrmPermissoesCadastro f = new(this)
+            FrmPerfisCadastro f = new(this)
             {
                 codigo = this.codigo,
                 operacao = "Edição"
@@ -145,7 +143,7 @@ namespace GUI
 
         private void AdicionarPermissao(int item)
         {
-            if (MessageBox.Show("Deseja adicionar a permissão ao usuário?", "Aviso", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            if (MessageBox.Show("Deseja adicionar a permissão ao perfil?", "Aviso", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
                 try
                 {
@@ -156,7 +154,7 @@ namespace GUI
 
                     if (r > 0)
                     {
-                        MessageBox.Show("Já existe essa permissão para esse perfil de usuário.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show("Já existe essa permissão para esse usuário.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
 
@@ -181,12 +179,12 @@ namespace GUI
             }
         }
 
-        public FrmPermissoes()
+        public FrmPerfis()
         {
             InitializeComponent();
         }
 
-        private void FrmPermissoes_Load(object sender, EventArgs e)
+        private void FrmPerfis_Load(object sender, EventArgs e)
         {
             DALConexao conn = new(DadosConexao.StringConexao);
             BLLStatus bll = new(conn);

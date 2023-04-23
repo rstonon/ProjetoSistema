@@ -25,10 +25,10 @@ namespace ProjetoSistema.GUI.Classes
                 MySqlCommand cmd = new()
                 {
                     Connection = conn.ObjetoConexao,
-                    CommandText = "select pu.permissao_usuario_id from sis_permissoes_usuario pu left join sis_permissoes p on (pu.permissao_id = p.permissao_id) where p.permissao = @permissao and usuario_id = @usuario;"
+                    CommandText = "select pp.permissao_perfil_id from sis_permissoes_perfil pp left join sis_permissoes p on (pp.permissao_id = p.permissao_id) inner join sis_usuarios u on (pp.perfil_id = u.perfil_id) where p.permissao = @permissao and u.perfil_id = @perfil;"
                 };
                 cmd.Parameters.AddWithValue("@permissao", permissao);
-                cmd.Parameters.AddWithValue("@usuario", 1);
+                cmd.Parameters.AddWithValue("@perfil", 1);
                 conn.Conectar();
                 MySqlDataReader dr = cmd.ExecuteReader();
                 if (dr.HasRows)
