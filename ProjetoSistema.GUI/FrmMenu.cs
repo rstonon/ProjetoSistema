@@ -33,16 +33,16 @@ namespace ProjetoSistema.GUI
 
         private void gruposToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (UsuarioConfig.TemPermissao("brand.form"))
-            {
+            //if (UsuarioConfig.TemPermissao("brand.form"))
+            //{
                 OpenForm(typeof(FrmGrupos));
-            }
+            //}
 
         }
 
         private void FrmMenu_Load(object sender, EventArgs e)
         {
-
+            CarregarMenu();
         }
 
         private void marcasToolStripMenuItem_Click(object sender, EventArgs e)
@@ -71,6 +71,41 @@ namespace ProjetoSistema.GUI
             //{
                 OpenForm(typeof(FrmPerfis));
             //}
+        }
+
+        private void CarregarMenu()
+        {
+            if (!UsuarioConfig.TemPermissao("brand.form") && !UsuarioConfig.TemPermissao("group.form"))
+            {
+                cadastrosToolStripMenuItem.Visible = false;
+            }
+
+            if (!UsuarioConfig.TemPermissao("brand.form"))
+            {
+                marcasToolStripMenuItem.Visible = false;
+            }
+            if (!UsuarioConfig.TemPermissao("group.form"))
+            {
+                gruposToolStripMenuItem.Visible = false;
+            }
+
+            if (!UsuarioConfig.TemPermissao("user.form") && !UsuarioConfig.TemPermissao("permission.form") && !UsuarioConfig.TemPermissao("profile.form"))
+            {
+                adminToolStripMenuItem.Visible = false;
+            }
+
+            if (!UsuarioConfig.TemPermissao("user.form"))
+            {
+                usuáriosToolStripMenuItem.Visible = false;
+            }
+            if (!UsuarioConfig.TemPermissao("permission.form"))
+            {
+                permissõesToolStripMenuItem.Visible = false;
+            }
+            if (!UsuarioConfig.TemPermissao("profile.form"))
+            {
+                perfisDeUsuárioToolStripMenuItem.Visible = false;
+            }
         }
     }
 }

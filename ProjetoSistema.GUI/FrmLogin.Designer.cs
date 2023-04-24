@@ -36,13 +36,15 @@
             BtnAcessar = new Button();
             label2 = new Label();
             label3 = new Label();
+            comboBox1 = new ComboBox();
+            label4 = new Label();
             SuspendLayout();
             // 
             // textBox1
             // 
             textBox1.BackColor = SystemColors.Window;
             textBox1.Font = new Font("Segoe UI", 16F, FontStyle.Regular, GraphicsUnit.Point);
-            textBox1.Location = new Point(12, 156);
+            textBox1.Location = new Point(12, 197);
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(343, 36);
             textBox1.TabIndex = 0;
@@ -106,7 +108,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(13, 138);
+            label2.Location = new Point(13, 179);
             label2.Name = "label2";
             label2.Size = new Size(47, 15);
             label2.TabIndex = 5;
@@ -121,11 +123,31 @@
             label3.TabIndex = 6;
             label3.Text = "Senha";
             // 
+            // comboBox1
+            // 
+            comboBox1.Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point);
+            comboBox1.FormattingEnabled = true;
+            comboBox1.Location = new Point(12, 138);
+            comboBox1.Name = "comboBox1";
+            comboBox1.Size = new Size(341, 38);
+            comboBox1.TabIndex = 7;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(13, 120);
+            label4.Name = "label4";
+            label4.Size = new Size(52, 15);
+            label4.TabIndex = 8;
+            label4.Text = "Empresa";
+            // 
             // FrmLogin
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(367, 394);
+            Controls.Add(label4);
+            Controls.Add(comboBox1);
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(BtnAcessar);
@@ -150,5 +172,7 @@
         protected Button BtnAcessar;
         private Label label2;
         private Label label3;
+        private ComboBox comboBox1;
+        private Label label4;
     }
 }

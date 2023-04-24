@@ -3,7 +3,9 @@ using ProjetoSistema.DAL;
 using ProjetoSistema.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.Linq;
@@ -18,6 +20,13 @@ namespace ProjetoSistema.GUI
         public FrmLogin()
         {
             InitializeComponent();
+
+            var connection = ConfigurationManager.ConnectionStrings["conexao"].ConnectionString;
+            var connectionLog = ConfigurationManager.ConnectionStrings["conexaoLog"].ConnectionString;
+
+            DadosConexao.connectionString = connection;
+            DadosConexao.connectionStringLog = connectionLog;
+
         }
 
         private void BtnFechar_Click(object sender, EventArgs e)
