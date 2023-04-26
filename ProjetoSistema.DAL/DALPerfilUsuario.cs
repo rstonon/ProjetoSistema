@@ -27,11 +27,13 @@ namespace ProjetoSistema.DAL
                     Connection = _conn.ObjetoConexao,
                     CommandText = "INSERT INTO sis_perfis_usuarios SET " +
                                         "Status_Id = @status, " +
+                                        "Empresa_Id = @empresa, " +
                                         "nome_perfil = @perfil; " +
                                         "SELECT @@IDENTITY;",
                 };
 
                 cmd.Parameters.AddWithValue("@status", 1);
+                cmd.Parameters.AddWithValue("@empresa", model.EmpresaId);
                 cmd.Parameters.AddWithValue("@perfil", model.NomePerfil);
                 _conn.Conectar();
                 model.PerfilUsuarioId = Convert.ToInt32(cmd.ExecuteScalar());
@@ -53,11 +55,13 @@ namespace ProjetoSistema.DAL
                     Connection = _conn.ObjetoConexao,
                     CommandText = "UPDATE sis_perfis_usuarios SET " +
                                         "Status_Id = @status, " +
+                                        "Empresa_Id = @empresa, " +
                                         "nome_perfil = @perfil " +
                                         "WHERE perfil_usuario_id = @id;",
                 };
 
                 cmd.Parameters.AddWithValue("@status", model.StatusId);
+                cmd.Parameters.AddWithValue("@empresa", model.EmpresaId);
                 cmd.Parameters.AddWithValue("@perfil", model.NomePerfil);
                 cmd.Parameters.AddWithValue("@id", model.PerfilUsuarioId);
                 _conn.Conectar();
@@ -71,7 +75,7 @@ namespace ProjetoSistema.DAL
             finally { _conn.Desconectar(); }
         }
 
-        public void Excluir(int id)
+        public void Excluir(int id, int empresaId)
         {
             try
             {
@@ -80,10 +84,12 @@ namespace ProjetoSistema.DAL
                     Connection = _conn.ObjetoConexao,
                     CommandText = "UPDATE sis_perfis_usuarios SET " +
                                         "Status_Id = @status " +
-                                        "WHERE perfil_usuario_id = @id;",
+                                        "WHERE empresa_id = @empresa " +
+                                        "and perfil_usuario_id = @id;",
                 };
 
                 cmd.Parameters.AddWithValue("@status", 3);
+                cmd.Parameters.AddWithValue("@empresa", empresaId);
                 cmd.Parameters.AddWithValue("@id", id);
                 _conn.Conectar();
                 cmd.ExecuteNonQuery();
@@ -96,7 +102,7 @@ namespace ProjetoSistema.DAL
             finally { _conn.Desconectar(); }
         }
 
-        public DataTable PesquisaSql(String pesquisa, String status, String valor)
+        public DataTable PesquisaSql(int empresaId, string pesquisa, string status, string valor)
         {
             DataTable tabela = new();
 
@@ -123,11 +129,11 @@ namespace ProjetoSistema.DAL
 
             if (pesquisa.Equals("Código"))
             {
-                sql = "SELECT perfil_usuario_id, nome_perfil FROM sis_perfis_usuarios WHERE perfil_usuario_id = '" + valor + "'";
+                sql = @$"SELECT perfil_usuario_id, nome_perfil FROM sis_perfis_usuarios WHERE empresa_id = {empresaId} and perfil_usuario_id = '{valor}'";
             }
             if (pesquisa.Equals("Descrição"))
             {
-                sql = "SELECT perfil_usuario_id, nome_perfil FROM sis_perfis_usuarios WHERE nome_perfil like '%" + valor + "%'";
+                sql = @$"SELECT perfil_usuario_id, nome_perfil FROM sis_perfis_usuarios WHERE empresa_id = {empresaId} and nome_perfil like '%{valor}%'";
             }
 
             Pesquisa = sql + stringStatus + stringTipo;
@@ -137,14 +143,15 @@ namespace ProjetoSistema.DAL
             return tabela;
         }
 
-        public ModelPerfilUsuario Abrir(int id)
+        public ModelPerfilUsuario Abrir(int empresaId, int id)
         {
             ModelPerfilUsuario model = new();
             MySqlCommand cmd = new()
             {
                 Connection = _conn.ObjetoConexao,
-                CommandText = "SELECT * FROM sis_perfis_usuarios WHERE perfil_usuario_id = @id;"
+                CommandText = "SELECT * FROM sis_perfis_usuarios WHERE empresa_id = @empresa and perfil_usuario_id = @id;"
             };
+            cmd.Parameters.AddWithValue("@empresa", empresaId);
             cmd.Parameters.AddWithValue("@id", id);
             _conn.Conectar();
             MySqlDataReader dr = cmd.ExecuteReader();
@@ -154,6 +161,7 @@ namespace ProjetoSistema.DAL
                 dr.Read();
                 model.PerfilUsuarioId = Convert.ToInt32(dr["perfil_usuario_id"]);
                 model.StatusId = Convert.ToInt32(dr["status_id"]);
+                model.EmpresaId = Convert.ToInt32(dr["empresa_id"]);
                 model.NomePerfil = Convert.ToString(dr["nome_perfil"]);
                 lista.Add(model);
             }
@@ -161,15 +169,16 @@ namespace ProjetoSistema.DAL
             return model;
         }
 
-        public int VerificarPerfil(String valor)
+        public int VerificarPerfil(int empresaId, string valor)
         {
             int r = 0;
             _ = new ModelGrupo();
             MySqlCommand cmd = new()
             {
                 Connection = _conn.ObjetoConexao,
-                CommandText = "SELECT nome_perfil FROM sis_perfis_usuarios WHERE nome_perfil = @perfil and status_id <> 3;"
+                CommandText = "SELECT nome_perfil FROM sis_perfis_usuarios WHERE empresa_id = @empresa and nome_perfil = @perfil and status_id <> 3;"
             };
+            cmd.Parameters.AddWithValue("@empresa", empresaId);
             cmd.Parameters.AddWithValue("@perfil", valor);
             _conn.Conectar();
             MySqlDataReader dr = cmd.ExecuteReader();

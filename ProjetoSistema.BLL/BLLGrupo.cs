@@ -52,28 +52,28 @@ namespace ProjetoSistema.BLL
             d.Editar(obj);
         }
 
-        public void Excluir(int id)
+        public void Excluir(int empresaId, int id)
         {
             DALGrupo d = new(_conn);
-            d.Excluir(id);
+            d.Excluir(empresaId, id);
         }
 
-        public DataTable PesquisaSql(String pesquisa, String status, String tipo, String valor)
+        public DataTable PesquisaSql(int empresaId, string pesquisa, string status, string tipo, string valor)
         {
             DALGrupo d = new(_conn);
-            return d.PesquisaSql(pesquisa, status, tipo, valor);
+            return d.PesquisaSql(empresaId, pesquisa, status, tipo, valor);
         }
 
-        public ModelGrupo Abrir(int id)
+        public ModelGrupo Abrir(int empresaId, int id)
         {
             DALGrupo d = new(_conn);
-            return d.Abrir(id);
+            return d.Abrir(empresaId, id);
         }
 
-        public int VerificaGrupo(String tipo, String valor)
+        public int VerificaGrupo(int empresaId, string tipo, string valor)
         {
             DALGrupo d = new(_conn);
-            return d.VerificaGrupo(tipo, valor);
+            return d.VerificarGrupo(empresaId, tipo, valor);
         }
     }
 }

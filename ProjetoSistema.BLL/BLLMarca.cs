@@ -44,28 +44,28 @@ namespace ProjetoSistema.BLL
             d.Editar(obj);
         }
 
-        public void Excluir(int id)
+        public void Excluir(int empresaId, int id)
         {
             DALMarca d = new(_conn);
-            d.Excluir(id);
+            d.Excluir(empresaId, id);
         }
 
-        public DataTable PesquisaSql(String pesquisa, String status, String valor)
+        public DataTable PesquisaSql(int empresaId, string pesquisa, string status, string valor)
         {
             DALMarca d = new(_conn);
-            return d.PesquisaSql(pesquisa, status, valor);
+            return d.PesquisaSql(empresaId, pesquisa, status, valor);
         }
 
-        public ModelMarca Abrir(int id)
+        public ModelMarca Abrir(int empresaId, int id)
         {
             DALMarca d = new(_conn);
-            return d.Abrir(id);
+            return d.Abrir(empresaId, id);
         }
 
-        public int VerificarMarca(String valor)
+        public int VerificarMarca(int empresaId, string valor)
         {
             DALMarca d = new(_conn);
-            return d.VerificarMarca(valor);
+            return d.VerificarMarca(empresaId, valor);
         }
     }
 }

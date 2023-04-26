@@ -29,26 +29,16 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmLogin));
-            textBox1 = new TextBox();
             label1 = new Label();
             textBox2 = new TextBox();
             BtnFechar = new Button();
             BtnAcessar = new Button();
             label2 = new Label();
             label3 = new Label();
-            comboBox1 = new ComboBox();
+            cbxEmpresas = new ComboBox();
             label4 = new Label();
+            cbxUsuario = new ComboBox();
             SuspendLayout();
-            // 
-            // textBox1
-            // 
-            textBox1.BackColor = SystemColors.Window;
-            textBox1.Font = new Font("Segoe UI", 16F, FontStyle.Regular, GraphicsUnit.Point);
-            textBox1.Location = new Point(12, 197);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(343, 36);
-            textBox1.TabIndex = 0;
-            textBox1.TextAlign = HorizontalAlignment.Center;
             // 
             // label1
             // 
@@ -123,14 +113,16 @@
             label3.TabIndex = 6;
             label3.Text = "Senha";
             // 
-            // comboBox1
+            // cbxEmpresas
             // 
-            comboBox1.Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point);
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(12, 138);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(341, 38);
-            comboBox1.TabIndex = 7;
+            cbxEmpresas.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbxEmpresas.Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point);
+            cbxEmpresas.FormattingEnabled = true;
+            cbxEmpresas.Location = new Point(12, 138);
+            cbxEmpresas.Name = "cbxEmpresas";
+            cbxEmpresas.Size = new Size(343, 38);
+            cbxEmpresas.TabIndex = 0;
+            cbxEmpresas.Leave += cbxEmpresas_Leave;
             // 
             // label4
             // 
@@ -141,38 +133,48 @@
             label4.TabIndex = 8;
             label4.Text = "Empresa";
             // 
+            // cbxUsuario
+            // 
+            cbxUsuario.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbxUsuario.Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point);
+            cbxUsuario.FormattingEnabled = true;
+            cbxUsuario.Location = new Point(12, 195);
+            cbxUsuario.Name = "cbxUsuario";
+            cbxUsuario.Size = new Size(343, 38);
+            cbxUsuario.TabIndex = 1;
+            // 
             // FrmLogin
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(367, 394);
+            Controls.Add(cbxUsuario);
             Controls.Add(label4);
-            Controls.Add(comboBox1);
+            Controls.Add(cbxEmpresas);
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(BtnAcessar);
             Controls.Add(BtnFechar);
             Controls.Add(textBox2);
             Controls.Add(label1);
-            Controls.Add(textBox1);
             FormBorderStyle = FormBorderStyle.None;
             Name = "FrmLogin";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "FrmLogin";
+            Load += FrmLogin_Load;
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
-
-        private TextBox textBox1;
         private Label label1;
         private TextBox textBox2;
         protected Button BtnFechar;
         protected Button BtnAcessar;
         private Label label2;
         private Label label3;
-        private ComboBox comboBox1;
+        private ComboBox cbxEmpresas;
         private Label label4;
+        private ComboBox cbxUsuario;
     }
 }

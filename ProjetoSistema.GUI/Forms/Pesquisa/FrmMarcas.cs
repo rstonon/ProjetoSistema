@@ -1,5 +1,6 @@
 ﻿using ProjetoSistema.BLL;
 using ProjetoSistema.DAL;
+using ProjetoSistema.GUI.Classes;
 using System.Data;
 
 namespace GUI
@@ -43,7 +44,7 @@ namespace GUI
             DALConexao conn = new(DadosConexao.StringConexao);
             BLLMarca bll = new(conn);
 
-            DgvDados.DataSource = bll.PesquisaSql(cbxPesquisarPor.Text, cbxStatus.Text, txtPalavraChave.Text);
+            DgvDados.DataSource = bll.PesquisaSql(EmpresaConfig.empresaId, cbxPesquisarPor.Text, cbxStatus.Text, txtPalavraChave.Text);
 
 
             CarregarDados();
@@ -69,7 +70,7 @@ namespace GUI
                 {
                     DALConexao conn = new(DadosConexao.StringConexao);
                     BLLMarca bll = new(conn);
-                    bll.Excluir(Convert.ToInt32(DgvDados.CurrentRow.Cells[0].Value.ToString()));
+                    bll.Excluir(EmpresaConfig.empresaId, Convert.ToInt32(DgvDados.CurrentRow.Cells[0].Value.ToString()));
                 }
                 PesquisaSql();
             }

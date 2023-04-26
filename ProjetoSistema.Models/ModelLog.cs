@@ -8,15 +8,17 @@ namespace ProjetoSistema.Model
 {
     public class ModelLog
     {
-        public ModelLog(int logId, char tipoLog, string tela, string descricao)
+        public ModelLog(int logId, int empresaId, char tipoLog, string tela, string descricao)
         {
             LogId = logId;
+            EmpresaId = empresaId;
             TipoLog = tipoLog;
             Tela = tela;
             Descricao = descricao;
         }
 
         public int LogId { get; set; }
+        public int EmpresaId { get; set; }
         public DateTime Data { get; set; }
         public char TipoLog { get; set; }
         public string Tela { get; set; }

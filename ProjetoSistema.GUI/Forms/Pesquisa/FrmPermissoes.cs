@@ -1,5 +1,6 @@
 ﻿using ProjetoSistema.BLL;
 using ProjetoSistema.DAL;
+using ProjetoSistema.GUI.Classes;
 using ProjetoSistema.Model;
 using System.Data;
 using System.Windows.Forms;
@@ -152,7 +153,7 @@ namespace GUI
                     int r = 0;
                     DALConexao conn = new(DadosConexao.StringConexao);
                     BLLPermissaoPerfil bll = new(conn);
-                    r = bll.VerificarPermissaPerfil(codigoPerfil, item);
+                    r = bll.VerificarPermissaPerfil(EmpresaConfig.empresaId, codigoPerfil, item);
 
                     if (r > 0)
                     {

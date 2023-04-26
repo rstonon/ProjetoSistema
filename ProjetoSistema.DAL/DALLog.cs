@@ -26,12 +26,14 @@ namespace ProjetoSistema.DAL
                 {
                     Connection = _conn.ObjetoConexao,
                     CommandText = "INSERT INTO logs SET " +
+                                        "Empresa_Id = @empresa, " +
                                         "tipo_log = @tipo, " +
                                         "tela = @tela, " +
                                         "descricao = @descricao; " +
                                         "SELECT @@IDENTITY;",
                 };
 
+                cmd.Parameters.AddWithValue("@empresa", model.EmpresaId);
                 cmd.Parameters.AddWithValue("@tipo", model.TipoLog);
                 cmd.Parameters.AddWithValue("@tela", model.Tela);
                 cmd.Parameters.AddWithValue("@descricao", model.Descricao);

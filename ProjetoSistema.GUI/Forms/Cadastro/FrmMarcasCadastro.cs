@@ -1,5 +1,6 @@
 ﻿using ProjetoSistema.BLL;
 using ProjetoSistema.DAL;
+using ProjetoSistema.GUI.Classes;
 using ProjetoSistema.Models;
 
 namespace GUI
@@ -99,7 +100,7 @@ namespace GUI
                 {
                     DALConexao conn = new(DadosConexao.StringConexao);
                     BLLMarca bll = new(conn);
-                    ModelMarca model = bll.Abrir(codigo);
+                    ModelMarca model = bll.Abrir(EmpresaConfig.empresaId, codigo);
                     textBox1.Text = model.MarcaId.ToString();
                     cbxStatus.SelectedValue = model.StatusId;
                     textBox2.Text = model.DescricaoMarca;

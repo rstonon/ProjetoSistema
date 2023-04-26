@@ -44,6 +44,7 @@ namespace ProjetoSistema.DAL
                     Connection = _conn.ObjetoConexao,
                     CommandText = "INSERT INTO sis_usuarios SET " +
                                         "Status_Id = @status, " +
+                                        "Empresa_Id = @empresa, " +
                                         "Perfil_Id = @perfil, " +
                                         "nome_usuario = @nome, " +
                                         "senha = @senha; " +
@@ -51,6 +52,7 @@ namespace ProjetoSistema.DAL
                 };
 
                 cmd.Parameters.AddWithValue("@status", 1);
+                cmd.Parameters.AddWithValue("@empresa", model.EmpresaId);
                 cmd.Parameters.AddWithValue("@perfil", model.PerfilId);
                 cmd.Parameters.AddWithValue("@nome", model.NomeUsuario);
                 cmd.Parameters.AddWithValue("@senha", MD5Hash(model.Senha));
@@ -74,6 +76,7 @@ namespace ProjetoSistema.DAL
                     Connection = _conn.ObjetoConexao,
                     CommandText = "UPDATE sis_usuarios SET " +
                                         "Status_Id = @status, " +
+                                        "Empresa_Id = @empresa, " +
                                         "Perfil_Id = @perfil, " +
                                         "nome_usuario = @nome, " +
                                         "senha = @senha " +
@@ -81,6 +84,7 @@ namespace ProjetoSistema.DAL
                 };
 
                 cmd.Parameters.AddWithValue("@status", model.StatusId);
+                cmd.Parameters.AddWithValue("@empresa", model.EmpresaId);
                 cmd.Parameters.AddWithValue("@perfil", model.PerfilId);
                 cmd.Parameters.AddWithValue("@nome", model.NomeUsuario);
                 cmd.Parameters.AddWithValue("@senha", MD5Hash(model.Senha));
@@ -96,7 +100,7 @@ namespace ProjetoSistema.DAL
             finally { _conn.Desconectar(); }
         }
 
-        public void Excluir(int id)
+        public void Excluir(int empresaId, int id)
         {
             try
             {
@@ -105,10 +109,12 @@ namespace ProjetoSistema.DAL
                     Connection = _conn.ObjetoConexao,
                     CommandText = "UPDATE sis_usuarios SET " +
                                         "Status_Id = @status " +
-                                        "WHERE usuario_Id = @id;",
+                                        "WHERE empresa_id = @empresa " +
+                                        "and usuario_Id = @id;",
                 };
 
                 cmd.Parameters.AddWithValue("@status", 3);
+                cmd.Parameters.AddWithValue("@empresa", empresaId);
                 cmd.Parameters.AddWithValue("@id", id);
                 _conn.Conectar();
                 cmd.ExecuteNonQuery();
@@ -121,7 +127,7 @@ namespace ProjetoSistema.DAL
             finally { _conn.Desconectar(); }
         }
 
-        public DataTable PesquisaSql(String pesquisa, String status, String valor)
+        public DataTable PesquisaSql(int empresaId, string pesquisa, string status, string valor)
         {
             DataTable tabela = new();
 
@@ -136,15 +142,13 @@ namespace ProjetoSistema.DAL
                 stringStatus = " and s.status_id <> 3";
             }
 
-
-
             if (pesquisa.Equals("Código"))
             {
-                sql = "SELECT u.usuario_id, u.nome_usuario FROM sis_usuarios u inner join sis_status s on (u.status_id = s.status_id) WHERE u.usuario_Id = '" + valor + "'";
+                sql = @$"SELECT u.usuario_id, u.nome_usuario FROM sis_usuarios u inner join sis_status s on (u.status_id = s.status_id) WHERE u.empresa_id = {empresaId} and u.usuario_Id = '{valor}'";
             }
             if (pesquisa.Equals("Descrição"))
             {
-                sql = "SELECT u.usuario_id, u.nome_usuario FROM sis_usuarios u inner join sis_status s on (u.status_id = s.status_id) WHERE u.nome_usuario like '%" + valor + "%'";
+                sql = @$"SELECT u.usuario_id, u.nome_usuario FROM sis_usuarios u inner join sis_status s on (u.status_id = s.status_id) WHERE u.empresa_id = {empresaId} and u.nome_usuario like '%{valor}%'";
             }
 
             Pesquisa = sql + stringStatus;
@@ -154,14 +158,15 @@ namespace ProjetoSistema.DAL
             return tabela;
         }
 
-        public ModelUsuario Abrir(int id)
+        public ModelUsuario Abrir(int empresaId, int id)
         {
             ModelUsuario model = new();
             MySqlCommand cmd = new()
             {
                 Connection = _conn.ObjetoConexao,
-                CommandText = "SELECT * FROM sis_usuarios WHERE usuario_id = @id;"
+                CommandText = "SELECT * FROM sis_usuarios WHERE empresa_id = @empresa and usuario_id = @id;"
             };
+            cmd.Parameters.AddWithValue("@empresa", empresaId);
             cmd.Parameters.AddWithValue("@id", id);
             _conn.Conectar();
             MySqlDataReader dr = cmd.ExecuteReader();
@@ -171,6 +176,7 @@ namespace ProjetoSistema.DAL
                 dr.Read();
                 model.UsuarioId = Convert.ToInt32(dr["usuario_id"]);
                 model.StatusId = Convert.ToInt32(dr["status_id"]);
+                model.EmpresaId = Convert.ToInt32(dr["empresa_id"]);
                 model.PerfilId = Convert.ToInt32(dr["perfil_id"]);
                 model.NomeUsuario = Convert.ToString(dr["nome_usuario"]);
                 model.Senha = Convert.ToString(dr["senha"]);
@@ -180,36 +186,38 @@ namespace ProjetoSistema.DAL
             return model;
         }
 
-        public int VerificaUsuario(String valor)
+        public int VerificarUsuario(int empresaId, string valor)
         {
             int r = 0;
             _ = new ModelUsuario();
             MySqlCommand cmd = new()
             {
                 Connection = _conn.ObjetoConexao,
-                CommandText = "SELECT nome_usuario FROM sis_usuarios WHERE nome_usuario = @nome;"
+                CommandText = "SELECT nome_usuario FROM sis_usuarios WHERE empresa_id = @empresa and nome_usuario = @nome;"
             };
+            cmd.Parameters.AddWithValue("@empresa", empresaId);
             cmd.Parameters.AddWithValue("@nome", valor);
             _conn.Conectar();
             MySqlDataReader dr = cmd.ExecuteReader();
             if (dr.HasRows)
             {
                 dr.Read();
-                r = Convert.ToInt32(dr["marca_id"]);
+                r = Convert.ToInt32(dr["nome_usuario"]);
             }
             _conn.Desconectar();
             return r;
         }
 
-        public bool Login(string usuario, string senha)
+        public bool Login(int empresaId, string usuario, string senha)
         {
             try
             {
                 MySqlCommand cmd = new()
                 {
                     Connection = _conn.ObjetoConexao,
-                    CommandText = "SELECT * FROM sis_usuarios WHERE nome_usuario = @usuario and senha = @senha and status_id = 1;"
+                    CommandText = "SELECT * FROM sis_usuarios WHERE empresa_id = @empresa and nome_usuario = @usuario and senha = @senha and status_id = 1;"
                 };
+                cmd.Parameters.AddWithValue("@empresa", empresaId);
                 cmd.Parameters.AddWithValue("@usuario", usuario);
                 cmd.Parameters.AddWithValue("@senha", senha);
                 _conn.Conectar();

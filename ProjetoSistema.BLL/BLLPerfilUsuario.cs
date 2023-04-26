@@ -45,28 +45,28 @@ namespace ProjetoSistema.BLL
             d.Editar(obj);
         }
 
-        public void Excluir(int id)
+        public void Excluir(int empresaId, int id)
         {
             DALPerfilUsuario d = new(_conn);
-            d.Excluir(id);
+            d.Excluir(empresaId, id);
         }
 
-        public DataTable PesquisaSql(String pesquisa, String status, String valor)
+        public DataTable PesquisaSql(int empresaId, string pesquisa, string status, string valor)
         {
             DALPerfilUsuario d = new(_conn);
-            return d.PesquisaSql(pesquisa, status, valor);
+            return d.PesquisaSql(empresaId, pesquisa, status, valor);
         }
 
-        public ModelPerfilUsuario Abrir(int id)
+        public ModelPerfilUsuario Abrir(int empresaId, int id)
         {
             DALPerfilUsuario d = new(_conn);
-            return d.Abrir(id);
+            return d.Abrir(empresaId, id);
         }
 
-        public int VerificarPerfil(String valor)
+        public int VerificarPerfil(int empresaId, string valor)
         {
             DALPerfilUsuario d = new(_conn);
-            return d.VerificarPerfil(valor);
+            return d.VerificarPerfil(empresaId, valor);
         }
     }
 }

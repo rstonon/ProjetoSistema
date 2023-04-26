@@ -1,5 +1,6 @@
 ﻿using ProjetoSistema.BLL;
 using ProjetoSistema.DAL;
+using ProjetoSistema.GUI.Classes;
 using ProjetoSistema.Models;
 
 namespace GUI
@@ -95,6 +96,15 @@ namespace GUI
             }
 
             comboBox1.Text = tipoGrupo;
+
+            if (!operacao.Equals("Inclusão") && !UsuarioConfig.TemPermissao("group.edit"))
+            {
+                btnSalvar.Enabled = false;
+            }
+            if (UsuarioConfig.TemPermissao("group.view"))
+            {
+                pnDados.Enabled = false;
+            }
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -105,7 +115,7 @@ namespace GUI
                 {
                     DALConexao conn = new(DadosConexao.StringConexao);
                     BLLGrupo bll = new(conn);
-                    ModelGrupo model = bll.Abrir(codigo);
+                    ModelGrupo model = bll.Abrir(EmpresaConfig.empresaId, codigo);
                     textBox1.Text = model.GrupoId.ToString();
                     cbxStatus.SelectedValue = model.StatusId;
                     comboBox1.Text = model.TipoGrupo;

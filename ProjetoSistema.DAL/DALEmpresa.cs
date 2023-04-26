@@ -1,4 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
+using ProjetoSistema.Model;
 using ProjetoSistema.Models;
 using System;
 using System.Collections.Generic;
@@ -9,34 +10,36 @@ using System.Threading.Tasks;
 
 namespace ProjetoSistema.DAL
 {
-    public class DALMarca
+    public class DALEmpresa
     {
         private readonly DALConexao _conn;
 
-        public DALMarca(DALConexao conn)
+        public DALEmpresa(DALConexao conn)
         {
             _conn = conn;
         }
 
-        public void Adicionar(ModelMarca model)
+        public void Adicionar(ModelEmpresa model)
         {
             try
             {
                 MySqlCommand cmd = new()
                 {
                     Connection = _conn.ObjetoConexao,
-                    CommandText = "INSERT INTO mar_marcas SET " +
+                    CommandText = "INSERT INTO sis_empresas SET " +
                                         "Status_Id = @status, " +
-                                        "Empresa_Id = @empresa, " +
-                                        "descricao_marca = @descricao; " +
+                                        "cpf_cnpj = @cpfcnpj, " +
+                                        "razao_social = @razaosocial, " +
+                                        "nome_fantasia = @nomefantasia; " +
                                         "SELECT @@IDENTITY;",
                 };
 
                 cmd.Parameters.AddWithValue("@status", 1);
-                cmd.Parameters.AddWithValue("@empresa", model.EmpresaId);
-                cmd.Parameters.AddWithValue("@descricao", model.DescricaoMarca);
+                cmd.Parameters.AddWithValue("@cpfcnpj", model.CpfCnpj);
+                cmd.Parameters.AddWithValue("@razaosocial", model.RazaoSocial);
+                cmd.Parameters.AddWithValue("@nome_fantasia", model.NomeFantasia);
                 _conn.Conectar();
-                model.MarcaId = Convert.ToInt32(cmd.ExecuteScalar());
+                model.EmpresaId = Convert.ToInt32(cmd.ExecuteScalar());
 
             }
             catch (Exception ex)
@@ -46,24 +49,26 @@ namespace ProjetoSistema.DAL
             finally { _conn.Desconectar(); }
         }
 
-        public void Editar(ModelMarca model)
+        public void Editar(ModelEmpresa model)
         {
             try
             {
                 MySqlCommand cmd = new()
                 {
                     Connection = _conn.ObjetoConexao,
-                    CommandText = "UPDATE mar_marcas SET " +
+                    CommandText = "UPDATE sis_empresas SET " +
                                         "Status_Id = @status, " +
-                                        "Empresa_Id = @empresa, " +
-                                        "descricao_marca = @descricao " +
-                                        "WHERE marca_Id = @id;",
+                                        "cpf_cnpj = @cpfcnpj, " +
+                                        "razao_social = @razaosocial, " +
+                                        "nome_fantasia = @nomefantasia " +
+                                        "WHERE Empresa_Id = @id;",
                 };
 
                 cmd.Parameters.AddWithValue("@status", model.StatusId);
-                cmd.Parameters.AddWithValue("@empresa", model.EmpresaId);
-                cmd.Parameters.AddWithValue("@descricao", model.DescricaoMarca);
-                cmd.Parameters.AddWithValue("@id", model.MarcaId);
+                cmd.Parameters.AddWithValue("@cpfcnpj", model.CpfCnpj);
+                cmd.Parameters.AddWithValue("@razaosocial", model.RazaoSocial);
+                cmd.Parameters.AddWithValue("@nome_fantasia", model.NomeFantasia);
+                cmd.Parameters.AddWithValue("@id", model.EmpresaId);
                 _conn.Conectar();
                 cmd.ExecuteNonQuery();
 
@@ -75,21 +80,19 @@ namespace ProjetoSistema.DAL
             finally { _conn.Desconectar(); }
         }
 
-        public void Excluir(int empresaId, int id)
+        public void Excluir(int id)
         {
             try
             {
                 MySqlCommand cmd = new()
                 {
                     Connection = _conn.ObjetoConexao,
-                    CommandText = "UPDATE mar_marcas SET " +
+                    CommandText = "UPDATE sis_empresas SET " +
                                         "Status_Id = @status " +
-                                        "WHERE empresa_id = @empresa " +
-                                        "and marca_Id = @id;",
+                                        "WHERE Empresa_Id = @id;",
                 };
 
                 cmd.Parameters.AddWithValue("@status", 3);
-                cmd.Parameters.AddWithValue("@empresa", empresaId);
                 cmd.Parameters.AddWithValue("@id", id);
                 _conn.Conectar();
                 cmd.ExecuteNonQuery();
@@ -102,7 +105,7 @@ namespace ProjetoSistema.DAL
             finally { _conn.Desconectar(); }
         }
 
-        public DataTable PesquisaSql(int empresaId, string pesquisa, string status, string valor)
+        public DataTable PesquisaSql(string pesquisa, string status, string valor)
         {
             DataTable tabela = new();
 
@@ -117,15 +120,17 @@ namespace ProjetoSistema.DAL
                 stringStatus = " and s.status_id <> 3";
             }
 
-
-
             if (pesquisa.Equals("Código"))
             {
-                sql = @$"SELECT marca_id, descricao_marca FROM mar_marcas m inner join sis_status s on (m.status_id = s.status_id) WHERE m.empresa_id = {empresaId} and m.marca_Id = '{valor}'";
+                sql = @$"SELECT empresa_id, cpf_cnpj, razao_social, nome_fantasia FROM sis_empresas e inner join sis_status s on (e.status_id = s.status_id) WHERE e.empresa_id = {valor}";
             }
-            if (pesquisa.Equals("Descrição"))
+            if (pesquisa.Equals("Razão Social"))
             {
-                sql = @$"SELECT marca_id, descricao_marca FROM mar_marcas m inner join sis_status s on (m.status_id = s.status_id) WHERE m.empresa_id = {empresaId} and m.descricao_marca like '%{valor}%'";
+                sql = @$"SELECT empresa_id, cpf_cnpj, razao_social, nome_fantasia FROM sis_empresas e inner join sis_status s on (e.status_id = s.status_id) WHERE e.razao_social like '%{valor}%'";
+            }
+            if (pesquisa.Equals("Nome Fantasia"))
+            {
+                sql = @$"SELECT empresa_id, cpf_cnpj, razao_social, nome_fantasia FROM sis_empresas e inner join sis_status s on (e.status_id = s.status_id) WHERE e.nome_fantasia like '%{valor}%'";
             }
 
             Pesquisa = sql + stringStatus;
@@ -135,49 +140,46 @@ namespace ProjetoSistema.DAL
             return tabela;
         }
 
-        public ModelMarca Abrir(int empresaId, int id)
+        public ModelEmpresa Abrir(int id)
         {
-            ModelMarca model = new();
+            ModelEmpresa model = new();
             MySqlCommand cmd = new()
             {
                 Connection = _conn.ObjetoConexao,
-                CommandText = "SELECT * FROM mar_marcas WHERE empresa_id = @empresa and marca_id = @id;"
+                CommandText = "SELECT * FROM sis_empresas WHERE empresa_id = @id;"
             };
-            cmd.Parameters.AddWithValue("@empresa", empresaId);
             cmd.Parameters.AddWithValue("@id", id);
             _conn.Conectar();
             MySqlDataReader dr = cmd.ExecuteReader();
-            List<ModelMarca> lista = new();
             if (dr.HasRows)
             {
                 dr.Read();
-                model.MarcaId = Convert.ToInt32(dr["marca_id"]);
-                model.StatusId = Convert.ToInt32(dr["status_id"]);
                 model.EmpresaId = Convert.ToInt32(dr["empresa_id"]);
-                model.DescricaoMarca = Convert.ToString(dr["descricao_marca"]);
-                lista.Add(model);
+                model.StatusId = Convert.ToInt32(dr["status_id"]);
+                model.CpfCnpj = Convert.ToString(dr["cpf_cnpj"]);
+                model.RazaoSocial = Convert.ToString(dr["razao_social"]);
+                model.NomeFantasia = Convert.ToString(dr["nome_fantasia"]);
             }
             _conn.Desconectar();
             return model;
         }
 
-        public int VerificarMarca(int empresaId, string valor)
+        public int VerificarEmpresa(string valor)
         {
             int r = 0;
             _ = new ModelMarca();
             MySqlCommand cmd = new()
             {
                 Connection = _conn.ObjetoConexao,
-                CommandText = "SELECT descricao_marca FROM mar_marcas WHERE empresa_id = @empresa and descricao_marca = @descricao;"
+                CommandText = "SELECT empresa_id FROM sis_empresas WHERE razao_social = @razaosocial or nome_fantasia = @razaosocial;"
             };
-            cmd.Parameters.AddWithValue("@empresa", empresaId);
-            cmd.Parameters.AddWithValue("@descricao", valor);
+            cmd.Parameters.AddWithValue("@razaosocial", valor);
             _conn.Conectar();
             MySqlDataReader dr = cmd.ExecuteReader();
             if (dr.HasRows)
             {
                 dr.Read();
-                r = Convert.ToInt32(dr["marca_id"]);
+                r = Convert.ToInt32(dr["empresa_id"]);
             }
             _conn.Desconectar();
             return r;

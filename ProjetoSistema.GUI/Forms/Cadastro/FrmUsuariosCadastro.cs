@@ -1,5 +1,6 @@
 ﻿using ProjetoSistema.BLL;
 using ProjetoSistema.DAL;
+using ProjetoSistema.GUI.Classes;
 using ProjetoSistema.Model;
 using ProjetoSistema.Models;
 
@@ -10,7 +11,7 @@ namespace GUI
         public int codigo;
         public string operacao;
         public string origem;
-        FrmUsuarios form;
+        readonly FrmUsuarios form;
 
         public FrmUsuariosCadastro(FrmUsuarios form)
         {
@@ -90,7 +91,7 @@ namespace GUI
             cbxStatus.ValueMember = "status_id";
 
             BLLPerfilUsuario bllPerfil = new(conn);
-            cbxPerfil.DataSource = bllPerfil.PesquisaSql("Descrição", "Ativo", "");
+            cbxPerfil.DataSource = bllPerfil.PesquisaSql(EmpresaConfig.empresaId, "Descrição", "Ativo", "");
             cbxPerfil.DisplayMember = "nome_perfil";
             cbxPerfil.ValueMember = "perfil_usuario_id";
 
@@ -107,7 +108,7 @@ namespace GUI
                 {
                     DALConexao conn = new(DadosConexao.StringConexao);
                     BLLUsuario bll = new(conn);
-                    ModelUsuario model = bll.Abrir(codigo);
+                    ModelUsuario model = bll.Abrir(EmpresaConfig.empresaId, codigo);
                     textBox1.Text = model.UsuarioId.ToString();
                     cbxStatus.SelectedValue = model.StatusId;
                     textBox2.Text = model.NomeUsuario;

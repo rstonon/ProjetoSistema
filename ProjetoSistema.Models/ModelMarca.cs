@@ -12,18 +12,21 @@ namespace ProjetoSistema.Models
         {
             MarcaId = 0;
             StatusId = 1;
+            EmpresaId = 0;
             DescricaoMarca = "";
         }
 
-        public ModelMarca(int marcaId, int statusId, string descricaoMarca)
+        public ModelMarca(int marcaId, int statusId, int empresaId, string descricaoMarca)
         {
             MarcaId = marcaId;
             StatusId = statusId;
+            EmpresaId = empresaId;
             DescricaoMarca = descricaoMarca;
         }
 
         public int MarcaId { get; set; }
         public int StatusId { get; set; }
+        public int EmpresaId { get; set; }
         public string DescricaoMarca { get; set; }
     }
 }

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMenu));
             menuStrip1 = new MenuStrip();
             menuStrip2 = new MenuStrip();
             cadastrosToolStripMenuItem = new ToolStripMenuItem();
@@ -37,11 +38,11 @@
             gestãoToolStripMenuItem = new ToolStripMenuItem();
             fiscalToolStripMenuItem = new ToolStripMenuItem();
             adminToolStripMenuItem = new ToolStripMenuItem();
+            perfisDeUsuárioToolStripMenuItem = new ToolStripMenuItem();
             permissõesToolStripMenuItem = new ToolStripMenuItem();
             usuáriosToolStripMenuItem = new ToolStripMenuItem();
             statusStrip1 = new StatusStrip();
-            usuarioIDStatusLabel = new ToolStripStatusLabel();
-            perfisDeUsuárioToolStripMenuItem = new ToolStripMenuItem();
+            usuarioStripStatusLabel = new ToolStripStatusLabel();
             menuStrip2.SuspendLayout();
             statusStrip1.SuspendLayout();
             SuspendLayout();
@@ -109,41 +110,42 @@
             adminToolStripMenuItem.Size = new Size(55, 20);
             adminToolStripMenuItem.Text = "Admin";
             // 
+            // perfisDeUsuárioToolStripMenuItem
+            // 
+            perfisDeUsuárioToolStripMenuItem.Name = "perfisDeUsuárioToolStripMenuItem";
+            perfisDeUsuárioToolStripMenuItem.Size = new Size(162, 22);
+            perfisDeUsuárioToolStripMenuItem.Text = "Perfis de Usuário";
+            perfisDeUsuárioToolStripMenuItem.Click += perfisDeUsuárioToolStripMenuItem_Click;
+            // 
             // permissõesToolStripMenuItem
             // 
             permissõesToolStripMenuItem.Name = "permissõesToolStripMenuItem";
-            permissõesToolStripMenuItem.Size = new Size(180, 22);
+            permissõesToolStripMenuItem.Size = new Size(162, 22);
             permissõesToolStripMenuItem.Text = "Permissões";
             permissõesToolStripMenuItem.Click += permissõesToolStripMenuItem_Click;
             // 
             // usuáriosToolStripMenuItem
             // 
             usuáriosToolStripMenuItem.Name = "usuáriosToolStripMenuItem";
-            usuáriosToolStripMenuItem.Size = new Size(180, 22);
+            usuáriosToolStripMenuItem.Size = new Size(162, 22);
             usuáriosToolStripMenuItem.Text = "Usuários";
             usuáriosToolStripMenuItem.Click += usuáriosToolStripMenuItem_Click;
             // 
             // statusStrip1
             // 
-            statusStrip1.Items.AddRange(new ToolStripItem[] { usuarioIDStatusLabel });
+            statusStrip1.Items.AddRange(new ToolStripItem[] { usuarioStripStatusLabel });
             statusStrip1.Location = new Point(0, 428);
             statusStrip1.Name = "statusStrip1";
             statusStrip1.Size = new Size(800, 22);
             statusStrip1.TabIndex = 2;
             statusStrip1.Text = "statusStrip1";
             // 
-            // usuarioIDStatusLabel
+            // usuarioStripStatusLabel
             // 
-            usuarioIDStatusLabel.Name = "usuarioIDStatusLabel";
-            usuarioIDStatusLabel.Size = new Size(117, 17);
-            usuarioIDStatusLabel.Text = "usuarioIDStatusLabel";
-            // 
-            // perfisDeUsuárioToolStripMenuItem
-            // 
-            perfisDeUsuárioToolStripMenuItem.Name = "perfisDeUsuárioToolStripMenuItem";
-            perfisDeUsuárioToolStripMenuItem.Size = new Size(180, 22);
-            perfisDeUsuárioToolStripMenuItem.Text = "Perfis de Usuário";
-            perfisDeUsuárioToolStripMenuItem.Click += perfisDeUsuárioToolStripMenuItem_Click;
+            usuarioStripStatusLabel.Image = (Image)resources.GetObject("usuarioStripStatusLabel.Image");
+            usuarioStripStatusLabel.Name = "usuarioStripStatusLabel";
+            usuarioStripStatusLabel.Size = new Size(99, 17);
+            usuarioStripStatusLabel.Text = "Nome Usuário";
             // 
             // FrmMenu
             // 
@@ -182,7 +184,7 @@
         private ToolStripMenuItem permissõesToolStripMenuItem;
         private ToolStripMenuItem usuáriosToolStripMenuItem;
         private StatusStrip statusStrip1;
-        public ToolStripStatusLabel usuarioIDStatusLabel;
         private ToolStripMenuItem perfisDeUsuárioToolStripMenuItem;
+        public ToolStripStatusLabel usuarioStripStatusLabel;
     }
 }

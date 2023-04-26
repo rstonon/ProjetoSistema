@@ -1,5 +1,6 @@
 ﻿using ProjetoSistema.BLL;
 using ProjetoSistema.DAL;
+using ProjetoSistema.GUI.Classes;
 using ProjetoSistema.Model;
 using System.Data;
 using System.Windows.Forms;
@@ -15,7 +16,7 @@ namespace GUI
         public string origem;
         public string pesquisarPor;
         public string status;
-        FrmUsuariosCadastro form;
+        FrmPerfisCadastro form;
 
         public void AlteraBotoes(int op)
         {
@@ -48,7 +49,7 @@ namespace GUI
             DALConexao conn = new(DadosConexao.StringConexao);
             BLLPerfilUsuario bll = new(conn);
 
-            DgvDados.DataSource = bll.PesquisaSql(cbxPesquisarPor.Text, cbxStatus.Text, txtPalavraChave.Text);
+            DgvDados.DataSource = bll.PesquisaSql(EmpresaConfig.empresaId, cbxPesquisarPor.Text, cbxStatus.Text, txtPalavraChave.Text);
 
 
             CarregarDados();
@@ -150,7 +151,7 @@ namespace GUI
                     int r = 0;
                     DALConexao conn = new(DadosConexao.StringConexao);
                     BLLPermissaoPerfil bll = new(conn);
-                    r = bll.VerificarPermissaPerfil(codigoPerfil, item);
+                    r = bll.VerificarPermissaPerfil(EmpresaConfig.empresaId, codigoPerfil, item);
 
                     if (r > 0)
                     {

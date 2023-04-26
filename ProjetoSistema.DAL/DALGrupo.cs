@@ -29,12 +29,14 @@ namespace ProjetoSistema.DAL
                     Connection = _conn.ObjetoConexao,
                     CommandText = "INSERT INTO grp_grupos SET " +
                                         "Status_Id = @status, " +
+                                        "Empresa_Id = @empresa, " +
                                         "descricao_grupo = @descricao, " +
                                         "Tipo_Grupo = @tipo; " +
                                         "SELECT @@IDENTITY;",
                 };
 
                 cmd.Parameters.AddWithValue("@status", 1);
+                cmd.Parameters.AddWithValue("@empresa", model.EmpresaId);
                 cmd.Parameters.AddWithValue("@descricao", model.NomeGrupo);
                 cmd.Parameters.AddWithValue("@tipo", model.TipoGrupo);
                 _conn.Conectar();
@@ -57,12 +59,14 @@ namespace ProjetoSistema.DAL
                     Connection = _conn.ObjetoConexao,
                     CommandText = "UPDATE grp_grupos SET " +
                                         "Status_Id = @status, " +
+                                        "Empresa_Id = @empresa, " +
                                         "descricao_grupo = @descricao, " +
                                         "Tipo_Grupo = @tipo " +
                                         "WHERE Grupo_Id = @id;",
                 };
 
                 cmd.Parameters.AddWithValue("@status", model.StatusId);
+                cmd.Parameters.AddWithValue("@empresa", model.EmpresaId);
                 cmd.Parameters.AddWithValue("@descricao", model.NomeGrupo);
                 cmd.Parameters.AddWithValue("@tipo", model.TipoGrupo);
                 cmd.Parameters.AddWithValue("@id", model.GrupoId);
@@ -77,7 +81,7 @@ namespace ProjetoSistema.DAL
             finally { _conn.Desconectar(); }
         }
 
-        public void Excluir(int id)
+        public void Excluir(int empresaId, int id)
         {
             try
             {
@@ -86,10 +90,12 @@ namespace ProjetoSistema.DAL
                     Connection = _conn.ObjetoConexao,
                     CommandText = "UPDATE grp_grupos SET " +
                                         "Status_Id = @status " +
-                                        "WHERE Grupo_Id = @id;",
+                                        "WHERE empresa_id = @empresa " +
+                                        "and Grupo_Id = @id;",
                 };
 
                 cmd.Parameters.AddWithValue("@status", 3);
+                cmd.Parameters.AddWithValue("@empresa", empresaId);
                 cmd.Parameters.AddWithValue("@id", id);
                 _conn.Conectar();
                 cmd.ExecuteNonQuery();
@@ -102,7 +108,7 @@ namespace ProjetoSistema.DAL
             finally { _conn.Desconectar(); }
         }
 
-        public DataTable PesquisaSql(String pesquisa, String status, String tipo, String valor)
+        public DataTable PesquisaSql(int empresaId, string pesquisa, string status, string tipo, string valor)
         {
             DataTable tabela = new();
 
@@ -133,11 +139,11 @@ namespace ProjetoSistema.DAL
 
             if (pesquisa.Equals("Código"))
             {
-                sql = "SELECT grupo_id, descricao_grupo FROM grp_grupos WHERE Grupo_Id = '" + valor + "'";
+                sql = @$"SELECT grupo_id, descricao_grupo FROM grp_grupos WHERE empresa_id = {empresaId} and Grupo_Id = '{valor}'";
             }
             if (pesquisa.Equals("Descrição"))
             {
-                sql = "SELECT grupo_id, descricao_grupo FROM grp_grupos WHERE descricao_grupo like '%" + valor + "%'";
+                sql = @$"SELECT grupo_id, descricao_grupo FROM grp_grupos WHERE empresa_id = {empresaId} and descricao_grupo like '%{valor}%'";
             }
 
             Pesquisa = sql + stringStatus + stringTipo;
@@ -147,14 +153,15 @@ namespace ProjetoSistema.DAL
             return tabela;
         }
 
-        public ModelGrupo Abrir(int id)
+        public ModelGrupo Abrir(int empresaId, int id)
         {
             ModelGrupo model = new();
             MySqlCommand cmd = new()
             {
                 Connection = _conn.ObjetoConexao,
-                CommandText = "SELECT * FROM grp_grupos WHERE grupo_id = @id;"
+                CommandText = "SELECT * FROM grp_grupos WHERE empresa_id = @empresa and grupo_id = @id;"
             };
+            cmd.Parameters.AddWithValue("@empresa", empresaId);
             cmd.Parameters.AddWithValue("@id", id);
             _conn.Conectar();
             MySqlDataReader dr = cmd.ExecuteReader();
@@ -164,6 +171,7 @@ namespace ProjetoSistema.DAL
                 dr.Read();
                 model.GrupoId = Convert.ToInt32(dr["grupo_id"]);
                 model.StatusId = Convert.ToInt32(dr["status_id"]);
+                model.EmpresaId = Convert.ToInt32(dr["empresa_id"]);
                 model.TipoGrupo = Convert.ToString(dr["tipo_grupo"]);
                 model.NomeGrupo = Convert.ToString(dr["descricao_grupo"]);
                 lista.Add(model);
@@ -172,15 +180,16 @@ namespace ProjetoSistema.DAL
             return model;
         }
 
-        public int VerificaGrupo(String tipo, String valor)
+        public int VerificarGrupo(int empresaId, string tipo, string valor)
         {
             int r = 0;
             _ = new ModelGrupo();
             MySqlCommand cmd = new()
             {
                 Connection = _conn.ObjetoConexao,
-                CommandText = "SELECT descricao_grupo FROM grp_grupos WHERE tipo_grupo = @tipo and descricao_grupo = @descricao;"
+                CommandText = "SELECT descricao_grupo FROM grp_grupos WHERE empresa_id = @empresa and tipo_grupo = @tipo and descricao_grupo = @descricao;"
             };
+            cmd.Parameters.AddWithValue("@empresa", empresaId);
             cmd.Parameters.AddWithValue("@tipo", tipo);
             cmd.Parameters.AddWithValue("@descricao", valor);
             _conn.Conectar();

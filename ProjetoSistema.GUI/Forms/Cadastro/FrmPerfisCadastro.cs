@@ -1,5 +1,6 @@
 ﻿using ProjetoSistema.BLL;
 using ProjetoSistema.DAL;
+using ProjetoSistema.GUI.Classes;
 using ProjetoSistema.Model;
 using ProjetoSistema.Models;
 
@@ -100,7 +101,7 @@ namespace GUI
                 {
                     DALConexao conn = new(DadosConexao.StringConexao);
                     BLLPerfilUsuario bll = new(conn);
-                    ModelPerfilUsuario model = bll.Abrir(codigo);
+                    ModelPerfilUsuario model = bll.Abrir(EmpresaConfig.empresaId, codigo);
                     textBox1.Text = model.PerfilUsuarioId.ToString();
                     cbxStatus.SelectedValue = model.StatusId;
                     textBox2.Text = model.NomePerfil;
@@ -166,7 +167,7 @@ namespace GUI
         {
             DALConexao conn = new(DadosConexao.StringConexao);
             BLLPermissaoPerfil bll = new(conn);
-            DgvDados.DataSource = bll.PesquisaSql(Convert.ToInt32(textBox1.Text), textBox4.Text);
+            DgvDados.DataSource = bll.PesquisaSql(EmpresaConfig.empresaId, Convert.ToInt32(textBox1.Text), textBox4.Text);
 
             DgvDados.Columns[0].HeaderText = "Código";
             DgvDados.Columns[0].Width = 80;
@@ -186,7 +187,7 @@ namespace GUI
                 {
                     DALConexao conn = new(DadosConexao.StringConexao);
                     BLLPermissaoPerfil bll = new(conn);
-                    bll.Excluir(Convert.ToInt32(DgvDados.CurrentRow.Cells[0].Value.ToString()));
+                    bll.Excluir(EmpresaConfig.empresaId, Convert.ToInt32(DgvDados.CurrentRow.Cells[0].Value.ToString()));
                     CarregarPermissoes();
                 }
             }

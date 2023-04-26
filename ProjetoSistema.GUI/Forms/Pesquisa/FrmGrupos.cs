@@ -1,5 +1,7 @@
 ﻿using ProjetoSistema.BLL;
 using ProjetoSistema.DAL;
+using ProjetoSistema.GUI;
+using ProjetoSistema.GUI.Classes;
 using System.Data;
 
 namespace GUI
@@ -44,7 +46,7 @@ namespace GUI
             DALConexao conn = new(DadosConexao.StringConexao);
             BLLGrupo bll = new(conn);
 
-            DgvDados.DataSource = bll.PesquisaSql(cbxPesquisarPor.Text, cbxStatus.Text, cbxTipo.Text, txtPalavraChave.Text);
+            DgvDados.DataSource = bll.PesquisaSql(EmpresaConfig.empresaId, cbxPesquisarPor.Text, cbxStatus.Text, cbxTipo.Text, txtPalavraChave.Text);
 
 
             CarregarDados();
@@ -70,7 +72,7 @@ namespace GUI
                 {
                     DALConexao conn = new(DadosConexao.StringConexao);
                     BLLGrupo bll = new(conn);
-                    bll.Excluir(Convert.ToInt32(DgvDados.CurrentRow.Cells[0].Value.ToString()));
+                    bll.Excluir(EmpresaConfig.empresaId, Convert.ToInt32(DgvDados.CurrentRow.Cells[0].Value.ToString()));
                 }
                 PesquisaSql();
             }
@@ -194,6 +196,19 @@ namespace GUI
             }
 
             AlteraBotoes(1);
+
+            if (!UsuarioConfig.TemPermissao("group.create"))
+            {
+                BtnNovo.Enabled = false;
+            }
+            if (!UsuarioConfig.TemPermissao("group.view"))
+            {
+                BtnAbrir.Enabled = false;
+            }
+            if (!UsuarioConfig.TemPermissao("group.delete"))
+            {
+                BtnExcluir.Enabled = false;
+            }
         }
 
         private void BtnNovo_Click(object sender, EventArgs e)
@@ -260,7 +275,7 @@ namespace GUI
 
         private void DgvDados_DoubleClick(object sender, EventArgs e)
         {
-            if (pnSelecionar.Visible = true)
+            if (pnSelecionar.Visible == true)
             {
                 Selecionar();
             }
