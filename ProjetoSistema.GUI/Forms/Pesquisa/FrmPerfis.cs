@@ -1,5 +1,6 @@
 ﻿using ProjetoSistema.BLL;
 using ProjetoSistema.DAL;
+using ProjetoSistema.GUI.Classes;
 using ProjetoSistema.Model;
 using System.Data;
 using System.Windows.Forms;
@@ -15,7 +16,7 @@ namespace GUI
         public string origem;
         public string pesquisarPor;
         public string status;
-        FrmUsuariosCadastro form;
+        FrmPerfisCadastro form;
 
         public void AlteraBotoes(int op)
         {
@@ -48,7 +49,7 @@ namespace GUI
             DALConexao conn = new(DadosConexao.StringConexao);
             BLLPerfilUsuario bll = new(conn);
 
-            DgvDados.DataSource = bll.PesquisaSql(cbxPesquisarPor.Text, cbxStatus.Text, txtPalavraChave.Text);
+            DgvDados.DataSource = bll.PesquisaSql(EmpresaConfig.empresaId, cbxPesquisarPor.Text, cbxStatus.Text, txtPalavraChave.Text);
 
 
             CarregarDados();
@@ -120,6 +121,11 @@ namespace GUI
 
         private void Abrir()
         {
+            //if (!UsuarioConfig.TemPermissao("profile.edit"))
+            //{
+            //    return;
+            //}
+
             int item = Convert.ToInt32(DgvDados.CurrentRow.Cells[0].Value);
 
             if (item > 0)
@@ -150,7 +156,7 @@ namespace GUI
                     int r = 0;
                     DALConexao conn = new(DadosConexao.StringConexao);
                     BLLPermissaoPerfil bll = new(conn);
-                    r = bll.VerificarPermissaPerfil(codigoPerfil, item);
+                    r = bll.VerificarPermissaPerfil(EmpresaConfig.empresaId, codigoPerfil, item);
 
                     if (r > 0)
                     {
@@ -186,10 +192,14 @@ namespace GUI
 
         private void FrmPerfis_Load(object sender, EventArgs e)
         {
+            int[] statusId = new int[2];
+            statusId[0] = 1;
+            statusId[1] = 2;
+
             DALConexao conn = new(DadosConexao.StringConexao);
             BLLStatus bll = new(conn);
 
-            cbxStatus.DataSource = bll.PesquisaSql();
+            cbxStatus.DataSource = bll.PesquisaSql(statusId);
             cbxStatus.DisplayMember = "descricao_status";
             cbxStatus.ValueMember = "status_id";
 
@@ -226,6 +236,33 @@ namespace GUI
             }
 
             AlteraBotoes(1);
+
+            //if (!UsuarioConfig.TemPermissao("profile.create"))
+            //{
+            //    BtnNovo.Enabled = false;
+            //}
+            //if (!UsuarioConfig.TemPermissao("profile.view"))
+            //{
+            //    BtnAbrir.Enabled = false;
+            //}
+            //if (!UsuarioConfig.TemPermissao("profile.delete"))
+            //{
+            //    BtnExcluir.Enabled = false;
+            //}
+
+            ModelLog model = new()
+            {
+                EmpresaId = EmpresaConfig.empresaId,
+                Data = DateTime.Now,
+                TipoLog = 'G',
+                Tela = "Perfis",
+                Usuario = UsuarioConfig.nomeUsuario,
+                Descricao = "Abriu a tela de Perfis",
+            };
+
+            DALConexao connLog = new(DadosConexao.StringConexaoLog);
+            BLLLog bllLog = new(connLog);
+            bllLog.GerarLog(EmpresaConfig.empresaId, model);
         }
 
         private void BtnNovo_Click(object sender, EventArgs e)

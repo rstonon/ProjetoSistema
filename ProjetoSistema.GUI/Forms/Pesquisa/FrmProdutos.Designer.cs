@@ -1,6 +1,6 @@
 ﻿namespace GUI
 {
-    partial class FrmGrupos
+    partial class FrmProdutos
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmGrupos));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmProdutos));
             pnBotoes = new Panel();
             BtnFechar = new Button();
             BtnRelatorios = new Button();
@@ -41,8 +41,6 @@
             tpPesquisa = new TabPage();
             DgvDados = new DataGridView();
             pnPesquisa = new Panel();
-            label4 = new Label();
-            cbxTipo = new ComboBox();
             label3 = new Label();
             cbxStatus = new ComboBox();
             label2 = new Label();
@@ -55,6 +53,8 @@
             tpRelatorios = new TabPage();
             panel2 = new Panel();
             BtnSelecionarRelatorio = new Button();
+            label4 = new Label();
+            cbxTipoProduto = new ComboBox();
             pnBotoes.SuspendLayout();
             panel1.SuspendLayout();
             tbcDados.SuspendLayout();
@@ -85,16 +85,17 @@
             // 
             BtnFechar.Cursor = Cursors.Hand;
             BtnFechar.FlatAppearance.BorderColor = Color.Silver;
-            BtnFechar.Font = new Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            BtnFechar.FlatStyle = FlatStyle.Flat;
+            BtnFechar.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
             BtnFechar.Image = (Image)resources.GetObject("BtnFechar.Image");
             BtnFechar.ImageAlign = ContentAlignment.MiddleRight;
-            BtnFechar.Location = new Point(8, 190);
+            BtnFechar.Location = new Point(8, 242);
             BtnFechar.Margin = new Padding(4, 3, 4, 3);
             BtnFechar.Name = "BtnFechar";
-            BtnFechar.Size = new Size(136, 40);
+            BtnFechar.Size = new Size(136, 53);
             BtnFechar.TabIndex = 1;
             BtnFechar.Text = "Fechar";
-            BtnFechar.TextAlign = ContentAlignment.MiddleLeft;
+            BtnFechar.TextAlign = ContentAlignment.BottomLeft;
             BtnFechar.UseVisualStyleBackColor = true;
             BtnFechar.Click += BtnFechar_Click;
             // 
@@ -102,16 +103,17 @@
             // 
             BtnRelatorios.Cursor = Cursors.Hand;
             BtnRelatorios.FlatAppearance.BorderColor = Color.Silver;
-            BtnRelatorios.Font = new Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            BtnRelatorios.FlatStyle = FlatStyle.Flat;
+            BtnRelatorios.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
             BtnRelatorios.Image = (Image)resources.GetObject("BtnRelatorios.Image");
             BtnRelatorios.ImageAlign = ContentAlignment.MiddleRight;
-            BtnRelatorios.Location = new Point(8, 144);
+            BtnRelatorios.Location = new Point(8, 183);
             BtnRelatorios.Margin = new Padding(4, 3, 4, 3);
             BtnRelatorios.Name = "BtnRelatorios";
-            BtnRelatorios.Size = new Size(136, 40);
+            BtnRelatorios.Size = new Size(136, 53);
             BtnRelatorios.TabIndex = 0;
             BtnRelatorios.Text = "Relatórios";
-            BtnRelatorios.TextAlign = ContentAlignment.MiddleLeft;
+            BtnRelatorios.TextAlign = ContentAlignment.BottomLeft;
             BtnRelatorios.UseVisualStyleBackColor = true;
             BtnRelatorios.Click += BtnRelatorios_Click;
             // 
@@ -119,16 +121,17 @@
             // 
             BtnExcluir.Cursor = Cursors.Hand;
             BtnExcluir.FlatAppearance.BorderColor = Color.Silver;
-            BtnExcluir.Font = new Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            BtnExcluir.FlatStyle = FlatStyle.Flat;
+            BtnExcluir.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
             BtnExcluir.Image = (Image)resources.GetObject("BtnExcluir.Image");
             BtnExcluir.ImageAlign = ContentAlignment.MiddleRight;
-            BtnExcluir.Location = new Point(8, 98);
+            BtnExcluir.Location = new Point(8, 123);
             BtnExcluir.Margin = new Padding(4, 3, 4, 3);
             BtnExcluir.Name = "BtnExcluir";
-            BtnExcluir.Size = new Size(136, 40);
+            BtnExcluir.Size = new Size(136, 53);
             BtnExcluir.TabIndex = 0;
             BtnExcluir.Text = "Excluir";
-            BtnExcluir.TextAlign = ContentAlignment.MiddleLeft;
+            BtnExcluir.TextAlign = ContentAlignment.BottomLeft;
             BtnExcluir.UseVisualStyleBackColor = true;
             BtnExcluir.Click += BtnExcluir_Click;
             // 
@@ -136,16 +139,17 @@
             // 
             BtnAbrir.Cursor = Cursors.Hand;
             BtnAbrir.FlatAppearance.BorderColor = Color.Silver;
-            BtnAbrir.Font = new Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            BtnAbrir.FlatStyle = FlatStyle.Flat;
+            BtnAbrir.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
             BtnAbrir.Image = (Image)resources.GetObject("BtnAbrir.Image");
             BtnAbrir.ImageAlign = ContentAlignment.MiddleRight;
-            BtnAbrir.Location = new Point(8, 52);
+            BtnAbrir.Location = new Point(8, 65);
             BtnAbrir.Margin = new Padding(4, 3, 4, 3);
             BtnAbrir.Name = "BtnAbrir";
-            BtnAbrir.Size = new Size(136, 40);
+            BtnAbrir.Size = new Size(136, 53);
             BtnAbrir.TabIndex = 0;
             BtnAbrir.Text = "Abrir";
-            BtnAbrir.TextAlign = ContentAlignment.MiddleLeft;
+            BtnAbrir.TextAlign = ContentAlignment.BottomLeft;
             BtnAbrir.UseVisualStyleBackColor = true;
             BtnAbrir.Click += BtnAbrir_Click;
             // 
@@ -153,16 +157,17 @@
             // 
             BtnNovo.Cursor = Cursors.Hand;
             BtnNovo.FlatAppearance.BorderColor = Color.Silver;
-            BtnNovo.Font = new Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            BtnNovo.FlatStyle = FlatStyle.Flat;
+            BtnNovo.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
             BtnNovo.Image = (Image)resources.GetObject("BtnNovo.Image");
             BtnNovo.ImageAlign = ContentAlignment.MiddleRight;
             BtnNovo.Location = new Point(8, 6);
             BtnNovo.Margin = new Padding(4, 3, 4, 3);
             BtnNovo.Name = "BtnNovo";
-            BtnNovo.Size = new Size(136, 40);
+            BtnNovo.Size = new Size(136, 53);
             BtnNovo.TabIndex = 0;
             BtnNovo.Text = "Novo";
-            BtnNovo.TextAlign = ContentAlignment.MiddleLeft;
+            BtnNovo.TextAlign = ContentAlignment.BottomLeft;
             BtnNovo.UseVisualStyleBackColor = true;
             BtnNovo.Click += BtnNovo_Click;
             // 
@@ -177,7 +182,7 @@
             BtnPesquisa.Location = new Point(8, 6);
             BtnPesquisa.Margin = new Padding(4, 3, 4, 3);
             BtnPesquisa.Name = "BtnPesquisa";
-            BtnPesquisa.Size = new Size(136, 35);
+            BtnPesquisa.Size = new Size(136, 53);
             BtnPesquisa.TabIndex = 0;
             BtnPesquisa.Text = "Pesquisa";
             BtnPesquisa.TextAlign = ContentAlignment.BottomLeft;
@@ -245,7 +250,7 @@
             // pnPesquisa
             // 
             pnPesquisa.Controls.Add(label4);
-            pnPesquisa.Controls.Add(cbxTipo);
+            pnPesquisa.Controls.Add(cbxTipoProduto);
             pnPesquisa.Controls.Add(label3);
             pnPesquisa.Controls.Add(cbxStatus);
             pnPesquisa.Controls.Add(label2);
@@ -260,31 +265,10 @@
             pnPesquisa.Size = new Size(1092, 100);
             pnPesquisa.TabIndex = 1;
             // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Location = new Point(139, 33);
-            label4.Margin = new Padding(4, 0, 4, 0);
-            label4.Name = "label4";
-            label4.Size = new Size(30, 15);
-            label4.TabIndex = 5;
-            label4.Text = "Tipo";
-            // 
-            // cbxTipo
-            // 
-            cbxTipo.DropDownStyle = ComboBoxStyle.DropDownList;
-            cbxTipo.FormattingEnabled = true;
-            cbxTipo.Items.AddRange(new object[] { "Grupo de Produtos", "Sub Grupo de Produtos", "Grupo de Colaboradores", "Sub Grupo de Colaboradores" });
-            cbxTipo.Location = new Point(139, 51);
-            cbxTipo.Margin = new Padding(4, 3, 4, 3);
-            cbxTipo.Name = "cbxTipo";
-            cbxTipo.Size = new Size(170, 23);
-            cbxTipo.TabIndex = 4;
-            // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(314, 33);
+            label3.Location = new Point(136, 33);
             label3.Margin = new Padding(4, 0, 4, 0);
             label3.Name = "label3";
             label3.Size = new Size(39, 15);
@@ -295,8 +279,8 @@
             // 
             cbxStatus.DropDownStyle = ComboBoxStyle.DropDownList;
             cbxStatus.FormattingEnabled = true;
-            cbxStatus.Items.AddRange(new object[] { "Todos", "Ativo", "Inativo" });
-            cbxStatus.Location = new Point(317, 51);
+            cbxStatus.Items.AddRange(new object[] { "Ativo", "Inativo", "Todos" });
+            cbxStatus.Location = new Point(139, 51);
             cbxStatus.Margin = new Padding(4, 3, 4, 3);
             cbxStatus.Name = "cbxStatus";
             cbxStatus.Size = new Size(121, 23);
@@ -305,7 +289,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(442, 33);
+            label2.Location = new Point(393, 33);
             label2.Margin = new Padding(4, 0, 4, 0);
             label2.Name = "label2";
             label2.Size = new Size(83, 15);
@@ -314,7 +298,7 @@
             // 
             // txtPalavraChave
             // 
-            txtPalavraChave.Location = new Point(446, 51);
+            txtPalavraChave.Location = new Point(397, 51);
             txtPalavraChave.Margin = new Padding(4, 3, 4, 3);
             txtPalavraChave.Name = "txtPalavraChave";
             txtPalavraChave.Size = new Size(235, 23);
@@ -334,7 +318,7 @@
             // 
             cbxPesquisarPor.DropDownStyle = ComboBoxStyle.DropDownList;
             cbxPesquisarPor.FormattingEnabled = true;
-            cbxPesquisarPor.Items.AddRange(new object[] { "Código", "Descrição" });
+            cbxPesquisarPor.Items.AddRange(new object[] { "Código Produto", "Descrição Produto" });
             cbxPesquisarPor.Location = new Point(10, 51);
             cbxPesquisarPor.Margin = new Padding(4, 3, 4, 3);
             cbxPesquisarPor.Name = "cbxPesquisarPor";
@@ -346,16 +330,17 @@
             BtnPesquisar.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             BtnPesquisar.Cursor = Cursors.Hand;
             BtnPesquisar.FlatAppearance.BorderColor = Color.Silver;
-            BtnPesquisar.Font = new Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            BtnPesquisar.FlatStyle = FlatStyle.Flat;
+            BtnPesquisar.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
             BtnPesquisar.Image = (Image)resources.GetObject("BtnPesquisar.Image");
             BtnPesquisar.ImageAlign = ContentAlignment.MiddleRight;
-            BtnPesquisar.Location = new Point(950, 39);
+            BtnPesquisar.Location = new Point(951, 21);
             BtnPesquisar.Margin = new Padding(4, 3, 4, 3);
             BtnPesquisar.Name = "BtnPesquisar";
-            BtnPesquisar.Size = new Size(136, 40);
+            BtnPesquisar.Size = new Size(136, 53);
             BtnPesquisar.TabIndex = 0;
             BtnPesquisar.Text = "Pesquisar";
-            BtnPesquisar.TextAlign = ContentAlignment.MiddleLeft;
+            BtnPesquisar.TextAlign = ContentAlignment.BottomLeft;
             BtnPesquisar.UseVisualStyleBackColor = true;
             BtnPesquisar.Click += BtnPesquisar_Click;
             // 
@@ -375,6 +360,7 @@
             BtnSelecionar.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             BtnSelecionar.Cursor = Cursors.Hand;
             BtnSelecionar.FlatAppearance.BorderColor = Color.Silver;
+            BtnSelecionar.FlatStyle = FlatStyle.Flat;
             BtnSelecionar.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
             BtnSelecionar.Image = (Image)resources.GetObject("BtnSelecionar.Image");
             BtnSelecionar.ImageAlign = ContentAlignment.MiddleRight;
@@ -428,7 +414,28 @@
             BtnSelecionarRelatorio.TextAlign = ContentAlignment.BottomLeft;
             BtnSelecionarRelatorio.UseVisualStyleBackColor = true;
             // 
-            // FrmGrupos
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(268, 33);
+            label4.Margin = new Padding(4, 0, 4, 0);
+            label4.Name = "label4";
+            label4.Size = new Size(76, 15);
+            label4.TabIndex = 5;
+            label4.Text = "Tipo Produto";
+            // 
+            // cbxTipoProduto
+            // 
+            cbxTipoProduto.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbxTipoProduto.FormattingEnabled = true;
+            cbxTipoProduto.Items.AddRange(new object[] { "Ativo", "Inativo", "Todos" });
+            cbxTipoProduto.Location = new Point(268, 51);
+            cbxTipoProduto.Margin = new Padding(4, 3, 4, 3);
+            cbxTipoProduto.Name = "cbxTipoProduto";
+            cbxTipoProduto.Size = new Size(121, 23);
+            cbxTipoProduto.TabIndex = 4;
+            // 
+            // FrmProdutos
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -440,11 +447,11 @@
             Margin = new Padding(4, 3, 4, 3);
             MaximizeBox = false;
             MinimizeBox = false;
-            Name = "FrmGrupos";
+            Name = "FrmProdutos";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Grupos / Sub Grupos";
-            Load += FrmGrupos_Load;
-            KeyDown += FrmGrupo_KeyDown;
+            Text = "Produtos";
+            Load += FrmProdutos_Load;
+            KeyDown += FrmModelo_KeyDown;
             pnBotoes.ResumeLayout(false);
             panel1.ResumeLayout(false);
             tbcDados.ResumeLayout(false);
@@ -481,9 +488,9 @@
         private System.Windows.Forms.ComboBox cbxPesquisarPor;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox cbxStatus;
-        private System.Windows.Forms.Label label4;
         protected Button BtnFechar;
         public Panel pnSelecionar;
-        private ComboBox cbxTipo;
+        private Label label4;
+        private ComboBox cbxTipoProduto;
     }
 }

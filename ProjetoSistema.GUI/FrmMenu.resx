@@ -66,4 +66,18 @@
   <metadata name="statusStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>247, 17</value>
   </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="usuarioStripStatusLabel.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAclJREFUSEvl
+        kb1Lw1AUxbMLDn7vSgXRVZAWa5JCUxvTVgcV9W8QcdFNXBQEq4IoIrSTgtihpVhBRWiKOKjo4udaFwVF
+        LKY49PpevJaYppq0mx74kZt3zznhEeZ/iOd5keO4JOGJACzL7uGqfJGySVpqwCX5cD/aSpPL5XKQopyu
+        WEuOfERAu3V5BT6uLRwK8LA24YabkFd90rM+kU+i3bo8bu5VWwqJnm/Q8243l0G7dXEcm9OX6uGJB+3W
+        BFtNtT0C+25UqkUSuHfYsNVgzLxIaDwddqgl5wt2uFj8nPXv6ZAdYNM2hjHzojeAmDP2VVqUaGe0pBtQ
+        QULsMCzVsiu2o700kZJ4QWkeMYq20gU7nkqIOq8LymPOK7pDW3mCFWYKwlUAG42fhMhMznBdnlqCZ565
+        mcEErDKghZ7RHdqsS0plm/0p5aBzOw0VI+u5u2BdvvyWzPTMGbkHn6zsB+SsDWPmJKUUlgRfCLQA2uaP
+        oHp4CUbHB1To3Bo8UnfIi19WujD+s7oPMw0k8KgJq3gjN9A7u6xCZ/1ekpUH6ThTjzXFJSWVaX3YLOQW
+        v/94v5w9NQqbI3uCNcXlk9+ejcNmeHvGmj8jhvkAIqQ3imsdzoAAAAAASUVORK5CYII=
+</value>
+  </data>
 </root>

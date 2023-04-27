@@ -35,14 +35,14 @@ namespace ProjetoSistema.GUI
         {
             //if (UsuarioConfig.TemPermissao("brand.form"))
             //{
-                OpenForm(typeof(FrmGrupos));
+            OpenForm(typeof(FrmGrupos));
             //}
 
         }
 
         private void FrmMenu_Load(object sender, EventArgs e)
         {
-            CarregarMenu();
+            //CarregarMenu();
         }
 
         private void marcasToolStripMenuItem_Click(object sender, EventArgs e)
@@ -69,7 +69,7 @@ namespace ProjetoSistema.GUI
         {
             //if (UsuarioConfig.TemPermissao("brand.form"))
             //{
-                OpenForm(typeof(FrmPerfis));
+            OpenForm(typeof(FrmPerfis));
             //}
         }
 
@@ -106,6 +106,11 @@ namespace ProjetoSistema.GUI
             {
                 perfisDeUsuárioToolStripMenuItem.Visible = false;
             }
+        }
+
+        private void produtosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenForm(typeof(FrmProdutos));
         }
     }
 }

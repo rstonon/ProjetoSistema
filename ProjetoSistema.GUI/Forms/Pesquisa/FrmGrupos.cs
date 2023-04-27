@@ -1,5 +1,8 @@
 ﻿using ProjetoSistema.BLL;
 using ProjetoSistema.DAL;
+using ProjetoSistema.GUI;
+using ProjetoSistema.GUI.Classes;
+using ProjetoSistema.Model;
 using System.Data;
 
 namespace GUI
@@ -44,7 +47,7 @@ namespace GUI
             DALConexao conn = new(DadosConexao.StringConexao);
             BLLGrupo bll = new(conn);
 
-            DgvDados.DataSource = bll.PesquisaSql(cbxPesquisarPor.Text, cbxStatus.Text, cbxTipo.Text, txtPalavraChave.Text);
+            DgvDados.DataSource = bll.PesquisaSql(EmpresaConfig.empresaId, cbxPesquisarPor.Text, cbxStatus.Text, cbxTipo.Text, txtPalavraChave.Text);
 
 
             CarregarDados();
@@ -63,6 +66,20 @@ namespace GUI
 
         public void Excluir()
         {
+            ModelLog modelLog = new()
+            {
+                EmpresaId = EmpresaConfig.empresaId,
+                Data = DateTime.Now,
+                TipoLog = 'G',
+                Tela = "Grupos",
+                Usuario = UsuarioConfig.nomeUsuario,
+                Descricao = @$"Clicou para Excluir o Grupo/Sub Grupo: {DgvDados.CurrentRow.Cells[0].Value}",
+            };
+
+            DALConexao connLog = new(DadosConexao.StringConexaoLog);
+            BLLLog bllLog = new(connLog);
+            bllLog.GerarLog(EmpresaConfig.empresaId, modelLog);
+
             try
             {
                 DialogResult d = MessageBox.Show("Deseja realmente excluir o registro?", "Aviso", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
@@ -70,7 +87,19 @@ namespace GUI
                 {
                     DALConexao conn = new(DadosConexao.StringConexao);
                     BLLGrupo bll = new(conn);
-                    bll.Excluir(Convert.ToInt32(DgvDados.CurrentRow.Cells[0].Value.ToString()));
+                    bll.Excluir(EmpresaConfig.empresaId, Convert.ToInt32(DgvDados.CurrentRow.Cells[0].Value.ToString()));
+
+                    ModelLog modelLog2 = new()
+                    {
+                        EmpresaId = EmpresaConfig.empresaId,
+                        Data = DateTime.Now,
+                        TipoLog = 'D',
+                        Tela = "Grupos",
+                        Usuario = UsuarioConfig.nomeUsuario,
+                        Descricao = @$"Excluiu o Grupo/Sub Grupo: {DgvDados.CurrentRow.Cells[0].Value}",
+                    };
+
+                    bllLog.GerarLog(EmpresaConfig.empresaId, modelLog2);
                 }
                 PesquisaSql();
             }
@@ -91,6 +120,20 @@ namespace GUI
 
         private void Novo()
         {
+            ModelLog model = new()
+            {
+                EmpresaId = EmpresaConfig.empresaId,
+                Data = DateTime.Now,
+                TipoLog = 'G',
+                Tela = "Grupos",
+                Usuario = UsuarioConfig.nomeUsuario,
+                Descricao = "Clicou em Novo na tela de Grupos/Sub Grupos",
+            };
+
+            DALConexao connLog = new(DadosConexao.StringConexaoLog);
+            BLLLog bllLog = new(connLog);
+            bllLog.GerarLog(EmpresaConfig.empresaId, model);
+
             FrmGruposCadastro f = new(this)
             {
                 operacao = "Inclusão",
@@ -102,6 +145,11 @@ namespace GUI
 
         private void Abrir()
         {
+            if (!UsuarioConfig.TemPermissao("group.edit"))
+            {
+                return;
+            }
+
             int item = Convert.ToInt32(DgvDados.CurrentRow.Cells[0].Value);
 
             if (item > 0)
@@ -119,6 +167,21 @@ namespace GUI
                 codigo = this.codigo,
                 operacao = "Edição"
             };
+
+            ModelLog modelLog = new()
+            {
+                EmpresaId = EmpresaConfig.empresaId,
+                Data = DateTime.Now,
+                TipoLog = 'G',
+                Tela = "Grupos",
+                Usuario = UsuarioConfig.nomeUsuario,
+                Descricao = @$"Abriu o cadastro do Grupo: {codigo} - {DgvDados.CurrentRow.Cells[1].Value}",
+            };
+
+            DALConexao connLog = new(DadosConexao.StringConexaoLog);
+            BLLLog bllLog = new(connLog);
+            bllLog.GerarLog(EmpresaConfig.empresaId, modelLog);
+
             f.ShowDialog();
 
         }
@@ -146,9 +209,13 @@ namespace GUI
 
         private void FrmGrupos_Load(object sender, EventArgs e)
         {
+            int[] statusId = new int[2];
+            statusId[0] = 1;
+            statusId[1] = 2;
+
             DALConexao conn = new(DadosConexao.StringConexao);
             BLLStatus bll = new(conn);
-            cbxStatus.DataSource = bll.PesquisaSql();
+            cbxStatus.DataSource = bll.PesquisaSql(statusId);
             cbxStatus.DisplayMember = "descricao_status";
             cbxStatus.ValueMember = "status_id";
 
@@ -194,6 +261,33 @@ namespace GUI
             }
 
             AlteraBotoes(1);
+
+            if (!UsuarioConfig.TemPermissao("group.create"))
+            {
+                BtnNovo.Enabled = false;
+            }
+            if (!UsuarioConfig.TemPermissao("group.edit"))
+            {
+                BtnAbrir.Enabled = false;
+            }
+            if (!UsuarioConfig.TemPermissao("group.delete"))
+            {
+                BtnExcluir.Enabled = false;
+            }
+
+            ModelLog model = new()
+            {
+                EmpresaId = EmpresaConfig.empresaId,
+                Data = DateTime.Now,
+                TipoLog = 'G',
+                Tela = "Grupos",
+                Usuario = UsuarioConfig.nomeUsuario,
+                Descricao = "Abriu a tela de Grupos/Sub Grupos",
+            };
+
+            DALConexao connLog = new(DadosConexao.StringConexaoLog);
+            BLLLog bllLog = new(connLog);
+            bllLog.GerarLog(EmpresaConfig.empresaId, model);
         }
 
         private void BtnNovo_Click(object sender, EventArgs e)
@@ -260,7 +354,7 @@ namespace GUI
 
         private void DgvDados_DoubleClick(object sender, EventArgs e)
         {
-            if (pnSelecionar.Visible = true)
+            if (pnSelecionar.Visible == true)
             {
                 Selecionar();
             }

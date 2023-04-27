@@ -12,18 +12,21 @@ namespace ProjetoSistema.Model
         {
             PerfilUsuarioId = 0;
             StatusId = 1;
-            NomePerfil = "";
+            EmpresaId = 0;
+            NomePerfil = String.Empty;
         }
 
-        public ModelPerfilUsuario(int perfilUsuarioId, int statusId, string nomePerfil)
+        public ModelPerfilUsuario(int perfilUsuarioId, int statusId, int empresaId, string nomePerfil)
         {
             PerfilUsuarioId = perfilUsuarioId;
             StatusId = statusId;
+            EmpresaId = empresaId;
             NomePerfil = nomePerfil;
         }
 
         public int PerfilUsuarioId { get; set; }
         public int StatusId { get; set; }
+        public int EmpresaId { get; set; }
         public string NomePerfil { get; set; }
     }
 }

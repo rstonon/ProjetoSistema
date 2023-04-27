@@ -1,5 +1,6 @@
 ﻿using ProjetoSistema.BLL;
 using ProjetoSistema.DAL;
+using ProjetoSistema.GUI.Classes;
 using ProjetoSistema.Model;
 using ProjetoSistema.Models;
 
@@ -10,7 +11,8 @@ namespace GUI
         public int codigo;
         public string operacao;
         public string origem;
-        FrmUsuarios form;
+        private int empresaId;
+        readonly FrmUsuarios form;
 
         public FrmUsuariosCadastro(FrmUsuarios form)
         {
@@ -39,6 +41,7 @@ namespace GUI
                     ModelUsuario model = new()
                     {
                         StatusId = Convert.ToInt32(cbxStatus.SelectedValue),
+                        EmpresaId = empresaId,
                         NomeUsuario = textBox2.Text,
                         Senha = textBox3.Text,
                         PerfilId = Convert.ToInt32(cbxPerfil.SelectedValue)
@@ -83,14 +86,18 @@ namespace GUI
 
         private void FrmUsuarioCadastro_Load(object sender, EventArgs e)
         {
+            int[] statusId = new int[2];
+            statusId[0] = 1;
+            statusId[1] = 2;
+
             DALConexao conn = new(DadosConexao.StringConexao);
             BLLStatus bll = new(conn);
-            cbxStatus.DataSource = bll.PesquisaSql();
+            cbxStatus.DataSource = bll.PesquisaSql(statusId);
             cbxStatus.DisplayMember = "descricao_status";
             cbxStatus.ValueMember = "status_id";
 
             BLLPerfilUsuario bllPerfil = new(conn);
-            cbxPerfil.DataSource = bllPerfil.PesquisaSql("Descrição", "Ativo", "");
+            cbxPerfil.DataSource = bllPerfil.PesquisaSql(EmpresaConfig.empresaId, "Descrição", "Ativo", "");
             cbxPerfil.DisplayMember = "nome_perfil";
             cbxPerfil.ValueMember = "perfil_usuario_id";
 
@@ -107,9 +114,10 @@ namespace GUI
                 {
                     DALConexao conn = new(DadosConexao.StringConexao);
                     BLLUsuario bll = new(conn);
-                    ModelUsuario model = bll.Abrir(codigo);
+                    ModelUsuario model = bll.Abrir(EmpresaConfig.empresaId, codigo);
                     textBox1.Text = model.UsuarioId.ToString();
                     cbxStatus.SelectedValue = model.StatusId;
+                    empresaId = model.EmpresaId;
                     textBox2.Text = model.NomeUsuario;
                     textBox3.Text = model.Senha;
                     cbxPerfil.SelectedValue = model.PerfilId;

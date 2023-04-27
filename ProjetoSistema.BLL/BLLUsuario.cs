@@ -61,31 +61,31 @@ namespace ProjetoSistema.BLL
             d.Editar(obj);
         }
 
-        public void Excluir(int id)
+        public void Excluir(int empresaId, int id)
         {
             DALUsuario d = new(_conn);
-            d.Excluir(id);
+            d.Excluir(empresaId, id);
         }
 
-        public DataTable PesquisaSql(String pesquisa, String status, String valor)
+        public DataTable PesquisaSql(int empresaId, string pesquisa, string status, string valor)
         {
             DALUsuario d = new(_conn);
-            return d.PesquisaSql(pesquisa, status, valor);
+            return d.PesquisaSql(empresaId, pesquisa, status, valor);
         }
 
-        public ModelUsuario Abrir(int id)
+        public ModelUsuario Abrir(int empresaId, int id)
         {
             DALUsuario d = new(_conn);
-            return d.Abrir(id);
+            return d.Abrir(empresaId, id);
         }
 
-        public int VerificaUsuario(String valor)
+        public int VerificaUsuario(int empresaId, string valor)
         {
             DALUsuario d = new(_conn);
-            return d.VerificaUsuario(valor);
+            return d.VerificarUsuario(empresaId, valor);
         }
 
-        public bool Login(string usuario, string senha)
+        public bool Login(int empresaId, string usuario, string senha)
         {
 
             if (usuario.Trim().Length.Equals(0))
@@ -98,7 +98,7 @@ namespace ProjetoSistema.BLL
             }
 
             DALUsuario d = new(_conn);
-            return d.Login(usuario,senha);
+            return d.Login(empresaId, usuario,senha);
         }
     }
 }

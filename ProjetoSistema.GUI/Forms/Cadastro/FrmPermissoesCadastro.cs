@@ -82,9 +82,13 @@ namespace GUI
 
         private void FrmPermissoesCadastro_Load(object sender, EventArgs e)
         {
+            int[] statusId = new int[2];
+            statusId[0] = 1;
+            statusId[1] = 2;
+
             DALConexao conn = new(DadosConexao.StringConexao);
             BLLStatus bll = new(conn);
-            cbxStatus.DataSource = bll.PesquisaSql();
+            cbxStatus.DataSource = bll.PesquisaSql(statusId);
             cbxStatus.DisplayMember = "descricao_status";
             cbxStatus.ValueMember = "status_id";
 

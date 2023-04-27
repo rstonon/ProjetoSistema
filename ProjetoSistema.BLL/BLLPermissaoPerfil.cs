@@ -34,22 +34,22 @@ namespace ProjetoSistema.BLL
             d.Adicionar(obj);
         }
 
-        public void Excluir(int id)
+        public void Excluir(int empresaId, int id)
         {
             DALPermissaoPerfil d = new(_conn);
-            d.Excluir(id);
+            d.Excluir(empresaId, id);
         }
 
-        public DataTable PesquisaSql(int perfilId, string valor)
+        public DataTable PesquisaSql(int empresaId, int perfilId, string valor)
         {
             DALPermissaoPerfil d = new(_conn);
-            return d.PesquisaSql(perfilId, valor);
+            return d.PesquisaSql(empresaId, perfilId, valor);
         }
 
-        public int VerificarPermissaPerfil(int usuarioId, int permissaoId)
+        public int VerificarPermissaPerfil(int empresaId, int usuarioId, int permissaoId)
         {
             DALPermissaoPerfil d = new(_conn);
-            return d.VerificarPermissaoPerfil(usuarioId, permissaoId);
+            return d.VerificarPermissaoPerfil(empresaId, usuarioId, permissaoId);
         }
     }
 }

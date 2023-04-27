@@ -1,5 +1,6 @@
 ﻿using ProjetoSistema.BLL;
 using ProjetoSistema.DAL;
+using ProjetoSistema.GUI.Classes;
 using ProjetoSistema.Models;
 
 namespace GUI
@@ -9,6 +10,7 @@ namespace GUI
         public int codigo;
         public string operacao;
         public string origem;
+        private int empresaId;
         FrmMarcas form;
 
         public FrmMarcasCadastro(FrmMarcas form)
@@ -38,7 +40,8 @@ namespace GUI
                     ModelMarca model = new()
                     {
                         StatusId = Convert.ToInt32(cbxStatus.SelectedValue),
-                        DescricaoMarca = textBox2.Text
+                        EmpresaId = empresaId,
+                        DescricaoMarca = textBox2.Text,
                     };
 
                     DALConexao conn = new(DadosConexao.StringConexao);
@@ -46,7 +49,7 @@ namespace GUI
 
                     if (operacao.Equals("Inclusão"))
                     {
-                        bll.Adicionar(model);
+                        bll.Adicionar(EmpresaConfig.empresaId, model);
                     }
                     else
                     {
@@ -80,12 +83,15 @@ namespace GUI
 
         private void FrmMarcaCadastro_Load(object sender, EventArgs e)
         {
+            int[] statusId = new int[2];
+            statusId[0] = 1;
+            statusId[1] = 2;
+
             DALConexao conn = new(DadosConexao.StringConexao);
             BLLStatus bll = new(conn);
-            cbxStatus.DataSource = bll.PesquisaSql();
+            cbxStatus.DataSource = bll.PesquisaSql(statusId);
             cbxStatus.DisplayMember = "descricao_status";
             cbxStatus.ValueMember = "status_id";
-
             //cbxStatus.SelectedValue = 1;
 
             textBox1.Text = this.codigo.ToString();
@@ -99,10 +105,11 @@ namespace GUI
                 {
                     DALConexao conn = new(DadosConexao.StringConexao);
                     BLLMarca bll = new(conn);
-                    ModelMarca model = bll.Abrir(codigo);
+                    ModelMarca model = bll.Abrir(EmpresaConfig.empresaId, codigo);
                     textBox1.Text = model.MarcaId.ToString();
                     cbxStatus.SelectedValue = model.StatusId;
                     textBox2.Text = model.DescricaoMarca;
+                    empresaId = model.EmpresaId;
                 }
                 catch (Exception ex)
                 {

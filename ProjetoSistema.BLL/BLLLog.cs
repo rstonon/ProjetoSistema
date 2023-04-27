@@ -18,7 +18,7 @@ namespace ProjetoSistema.BLL
             this._conn = conn;
         }
 
-        public void Adicionar(ModelLog obj)
+        public void GerarLog(int empresaId, ModelLog obj)
         {
             if (obj.Tela.Trim().Length.Equals(0))
             {
@@ -34,7 +34,7 @@ namespace ProjetoSistema.BLL
             }
 
             DALLog d = new(_conn);
-            d.Adicionar(obj);
+            d.GerarLog(empresaId, obj);
         }
     }
 }

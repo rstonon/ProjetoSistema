@@ -12,15 +12,17 @@ namespace ProjetoSistema.Model
         {
             UsuarioId = 0;
             StatusId = 1;
-            NomeUsuario = "";
-            Senha = "";
+            EmpresaId = 0;
+            NomeUsuario = String.Empty;
+            Senha = String.Empty;
             PerfilId = 0;
         }
 
-        public ModelUsuario(int usuarioId, int statusId, string nomeUsuario, string senha, int perfilId)
+        public ModelUsuario(int usuarioId, int statusId, int empresaId, string nomeUsuario, string senha, int perfilId)
         {
             UsuarioId = usuarioId;
             StatusId = statusId;
+            EmpresaId = empresaId;
             NomeUsuario = nomeUsuario;
             Senha = senha;
             PerfilId = perfilId;
@@ -28,6 +30,7 @@ namespace ProjetoSistema.Model
 
         public int UsuarioId { get; set; }
         public int StatusId { get; set; }
+        public int EmpresaId { get; set; }
         public string NomeUsuario { get; set; }
         public string Senha { get; set; }
         public int PerfilId { get; set; }

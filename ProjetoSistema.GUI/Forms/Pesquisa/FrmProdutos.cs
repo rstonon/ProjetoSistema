@@ -3,20 +3,16 @@ using ProjetoSistema.DAL;
 using ProjetoSistema.GUI.Classes;
 using ProjetoSistema.Model;
 using System.Data;
-using System.Windows.Forms;
 
 namespace GUI
 {
-    public partial class FrmPermissoes : Form
+    public partial class FrmProdutos : Form
     {
 
         public int codigo = 0;
-        public int codigoUsuario = 0;
-        public int codigoPerfil = 0;
         public string origem;
         public string pesquisarPor;
         public string status;
-        FrmUsuariosCadastro form;
 
         public void AlteraBotoes(int op)
         {
@@ -47,9 +43,9 @@ namespace GUI
         public void PesquisaSql()
         {
             DALConexao conn = new(DadosConexao.StringConexao);
-            BLLPermissao bll = new(conn);
+            BLLProduto bll = new(conn);
 
-            DgvDados.DataSource = bll.PesquisaSql(cbxPesquisarPor.Text, cbxStatus.Text, txtPalavraChave.Text);
+            DgvDados.DataSource = bll.PesquisaSql(EmpresaConfig.empresaId, cbxPesquisarPor.Text, cbxStatus.Text, txtPalavraChave.Text);
 
 
             CarregarDados();
@@ -60,10 +56,8 @@ namespace GUI
             DgvDados.Columns[0].HeaderText = "Código";
             DgvDados.Columns[0].Width = 80;
             DgvDados.Columns[0].Visible = false;
-            DgvDados.Columns[1].HeaderText = "Tela";
-            DgvDados.Columns[1].Width = 250;
-            DgvDados.Columns[2].HeaderText = "Descrição";
-            DgvDados.Columns[2].Width = 550;
+            DgvDados.Columns[1].HeaderText = "Descrição";
+            DgvDados.Columns[1].Width = 550;
 
             DgvDados.Focus();
         }
@@ -76,8 +70,8 @@ namespace GUI
                 if (d.ToString().Equals("Yes"))
                 {
                     DALConexao conn = new(DadosConexao.StringConexao);
-                    BLLPermissao bll = new(conn);
-                    bll.Excluir(Convert.ToInt32(DgvDados.CurrentRow.Cells[0].Value.ToString()));
+                    BLLProduto bll = new(conn);
+                    bll.Excluir(EmpresaConfig.empresaId, Convert.ToInt32(DgvDados.CurrentRow.Cells[0].Value.ToString()));
                 }
                 PesquisaSql();
             }
@@ -96,24 +90,9 @@ namespace GUI
             AlteraBotoes(1);
         }
 
-        private void Selecionar()
-        {
-            int item = Convert.ToInt32(DgvDados.CurrentRow.Cells[0].Value);
-
-            if (item > 0)
-            {
-                AdicionarPermissao(item);
-            }
-            else
-            {
-                MessageBox.Show("Favor selecionar um registro!", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-        }
-
         private void Novo()
         {
-            FrmPermissoesCadastro f = new(this)
+            FrmProdutosCadastro f = new(this)
             {
                 operacao = "Inclusão"
             };
@@ -123,7 +102,7 @@ namespace GUI
 
         private void Abrir()
         {
-            if (!UsuarioConfig.TemPermissao("permission.edit"))
+            if (!UsuarioConfig.TemPermissao("brand.edit"))
             {
                 return;
             }
@@ -140,7 +119,7 @@ namespace GUI
                 return;
             }
 
-            FrmPermissoesCadastro f = new(this)
+            FrmProdutosCadastro f = new(this)
             {
                 codigo = this.codigo,
                 operacao = "Edição"
@@ -149,57 +128,45 @@ namespace GUI
 
         }
 
-        private void AdicionarPermissao(int item)
+        private void Selecionar()
         {
-            if (MessageBox.Show("Deseja adicionar a permissão ao usuário?", "Aviso", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            int item = Convert.ToInt32(DgvDados.CurrentRow.Cells[0].Value);
+
+            if (item > 0)
             {
-                try
-                {
-                    int r = 0;
-                    DALConexao conn = new(DadosConexao.StringConexao);
-                    BLLPermissaoPerfil bll = new(conn);
-                    r = bll.VerificarPermissaPerfil(EmpresaConfig.empresaId, codigoPerfil, item);
-
-                    if (r > 0)
-                    {
-                        MessageBox.Show("Já existe essa permissão para esse perfil de usuário.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return;
-                    }
-
-                    ModelPermissaoPerfil model = new()
-                    {
-                        EmpresaId = EmpresaConfig.empresaId,
-                        PerfilId = codigoPerfil,
-                        PermissaoId = item,
-                    };
-
-                    bll.Adicionar(model);
-
-                    this.Close();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
+                this.codigo = item;
+                this.Close();
             }
             else
             {
-                this.Close();
+                MessageBox.Show("Favor selecionar um registro!", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
         }
 
-        public FrmPermissoes()
+        public FrmProdutos()
         {
             InitializeComponent();
         }
 
-        private void FrmPermissoes_Load(object sender, EventArgs e)
+        private void FrmProdutos_Load(object sender, EventArgs e)
         {
             int[] statusId = new int[2];
             statusId[0] = 1;
             statusId[1] = 2;
 
             DALConexao conn = new(DadosConexao.StringConexao);
+
+            BLLTipoProduto bllTipoProduto = new(conn);
+            cbxTipoProduto.DataSource = bllTipoProduto.PesquisaSql();
+            cbxTipoProduto.DisplayMember = "descricao_tipo_produto";
+            cbxTipoProduto.ValueMember = "tipo_produto_id";
+
+            DataTable sourceTipoProduto = (DataTable)this.cbxTipoProduto.DataSource;
+            DataRow rowTipoProduto = sourceTipoProduto.NewRow();
+            rowTipoProduto[1] = "Todos";
+            sourceTipoProduto.Rows.InsertAt(rowTipoProduto, 0);
+
             BLLStatus bll = new(conn);
 
             cbxStatus.DataSource = bll.PesquisaSql(statusId);
@@ -222,7 +189,7 @@ namespace GUI
 
             if (pesquisarPor == null)
             {
-                cbxPesquisarPor.Text = "Descrição";
+                cbxPesquisarPor.Text = "Descrição Produto";
             }
             else
             {
@@ -240,15 +207,15 @@ namespace GUI
 
             AlteraBotoes(1);
 
-            if (!UsuarioConfig.TemPermissao("permission.create"))
+            if (!UsuarioConfig.TemPermissao("product.create"))
             {
                 BtnNovo.Enabled = false;
             }
-            if (!UsuarioConfig.TemPermissao("permission.edit"))
+            if (!UsuarioConfig.TemPermissao("product.edit"))
             {
                 BtnAbrir.Enabled = false;
             }
-            if (!UsuarioConfig.TemPermissao("permission.delete"))
+            if (!UsuarioConfig.TemPermissao("product.delete"))
             {
                 BtnExcluir.Enabled = false;
             }
@@ -258,9 +225,9 @@ namespace GUI
                 EmpresaId = EmpresaConfig.empresaId,
                 Data = DateTime.Now,
                 TipoLog = 'G',
-                Tela = "Permissões",
+                Tela = "Produtos",
                 Usuario = UsuarioConfig.nomeUsuario,
-                Descricao = "Abriu a tela de Permissões",
+                Descricao = "Abriu a tela de Produtos",
             };
 
             DALConexao connLog = new(DadosConexao.StringConexaoLog);
