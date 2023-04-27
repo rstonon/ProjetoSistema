@@ -8,19 +8,19 @@ using System.Threading.Tasks;
 
 namespace ProjetoSistema.BLL
 {
-    public class BLLStatus
+    public class BLLTipoProduto
     {
         private readonly DALConexao _conn;
 
-        public BLLStatus(DALConexao conn)
+        public BLLTipoProduto(DALConexao conn)
         {
             _conn = conn;
         }
 
-        public DataTable PesquisaSql(int[] id)
+        public DataTable PesquisaSql()
         {
-            DALStatus d = new(_conn);
-            return d.PesquisaSql(id);
+            DALTipoProduto d = new(_conn);
+            return d.PesquisaSql();
         }
     }
 }

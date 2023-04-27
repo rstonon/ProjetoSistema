@@ -56,6 +56,7 @@
             textBox2.Font = new Font("Segoe UI", 16F, FontStyle.Regular, GraphicsUnit.Point);
             textBox2.Location = new Point(12, 254);
             textBox2.Name = "textBox2";
+            textBox2.PasswordChar = '*';
             textBox2.Size = new Size(343, 36);
             textBox2.TabIndex = 2;
             textBox2.TextAlign = HorizontalAlignment.Center;

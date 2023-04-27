@@ -12,9 +12,9 @@ namespace ProjetoSistema.Model
         {
             PermissaoId = 0;
             StatusId = 1;
-            Tela = "";
-            DescricaoPermissao = "";
-            Permissao = "";
+            Tela = String.Empty;
+            DescricaoPermissao = String.Empty;
+            Permissao = String.Empty;
         }
         public ModelPermissao(int permissaoId, int statusId, string tela, string descricaoPermissao, string permissao)
         {

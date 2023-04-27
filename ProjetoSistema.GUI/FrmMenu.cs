@@ -107,5 +107,10 @@ namespace ProjetoSistema.GUI
                 perfisDeUsuárioToolStripMenuItem.Visible = false;
             }
         }
+
+        private void produtosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenForm(typeof(FrmProdutos));
+        }
     }
 }

@@ -13,8 +13,8 @@ namespace ProjetoSistema.Model
             UsuarioId = 0;
             StatusId = 1;
             EmpresaId = 0;
-            NomeUsuario = "";
-            Senha = "";
+            NomeUsuario = String.Empty;
+            Senha = String.Empty;
             PerfilId = 0;
         }
 

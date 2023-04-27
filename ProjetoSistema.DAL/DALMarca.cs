@@ -18,7 +18,7 @@ namespace ProjetoSistema.DAL
             _conn = conn;
         }
 
-        public void Adicionar(ModelMarca model)
+        public void Adicionar(int empresaId, ModelMarca model)
         {
             try
             {
@@ -33,7 +33,7 @@ namespace ProjetoSistema.DAL
                 };
 
                 cmd.Parameters.AddWithValue("@status", 1);
-                cmd.Parameters.AddWithValue("@empresa", model.EmpresaId);
+                cmd.Parameters.AddWithValue("@empresa", empresaId);
                 cmd.Parameters.AddWithValue("@descricao", model.DescricaoMarca);
                 _conn.Conectar();
                 model.MarcaId = Convert.ToInt32(cmd.ExecuteScalar());

@@ -1,6 +1,7 @@
 ﻿using ProjetoSistema.BLL;
 using ProjetoSistema.DAL;
 using ProjetoSistema.GUI.Classes;
+using ProjetoSistema.Model;
 using ProjetoSistema.Models;
 using System;
 using System.Collections.Generic;
@@ -46,13 +47,28 @@ namespace ProjetoSistema.GUI
 
                 if (acessar)
                 {
+                    UsuarioConfig.nomeUsuario = cbxUsuario.Text;
+
                     this.Hide();
                     FrmMenu frm = new();
                     frm.usuarioStripStatusLabel.Text = cbxUsuario.Text;
                     frm.Show();
                     EmpresaConfig.empresaId = Convert.ToInt32(cbxEmpresas.SelectedValue);
 
-                    
+                    ModelLog model = new()
+                    {
+                        EmpresaId = EmpresaConfig.empresaId,
+                        Data = DateTime.Now,
+                        TipoLog = 'G',
+                        Tela = "Sistema",
+                        Usuario = UsuarioConfig.nomeUsuario,
+                        Descricao = "Entrou no sistema",
+                    };
+
+                    DALConexao connLog = new(DadosConexao.StringConexaoLog);
+                    BLLLog bllLog = new(connLog);
+                    bllLog.GerarLog(EmpresaConfig.empresaId, model);
+
                 }
                 else
                 {

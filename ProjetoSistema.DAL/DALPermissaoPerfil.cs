@@ -76,8 +76,11 @@ namespace ProjetoSistema.DAL
             DataTable tabela = new();
 
             string Pesquisa;
+            string ordem;
 
-            Pesquisa = @$"SELECT pp.permissao_perfil_id, p.tela, p.descricao_permissao FROM sis_permissoes_perfil pp inner join sis_perfis_usuarios u on (pp.perfil_id = u.perfil_usuario_id) inner join sis_permissoes p on (pp.permissao_id = p.permissao_id) WHERE pp.empresa_id = {empresaId} and pp.perfil_id = {perfilId} and p.descricao_permissao like '%{valor}%'";
+            ordem = " order by p.tela, p.descricao_permissao asc";
+
+            Pesquisa = @$"SELECT pp.permissao_perfil_id, p.tela, p.descricao_permissao FROM sis_permissoes_perfil pp inner join sis_perfis_usuarios u on (pp.perfil_id = u.perfil_usuario_id) inner join sis_permissoes p on (pp.permissao_id = p.permissao_id) WHERE pp.empresa_id = {empresaId} and pp.perfil_id = {perfilId} and p.descricao_permissao like '%{valor}%'" + ordem; 
 
             MySqlDataAdapter da = new(Pesquisa, _conn.StringConexao);
             da.Fill(tabela);

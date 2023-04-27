@@ -112,6 +112,9 @@ namespace ProjetoSistema.DAL
             string Pesquisa;
             string sql = "";
             string stringStatus;
+            string ordem;
+
+            ordem = " order by tela, descricao_permissao asc";
 
             stringStatus = " and s.descricao_status = '" + status + "'";
 
@@ -124,18 +127,14 @@ namespace ProjetoSistema.DAL
 
             if (pesquisa.Equals("Código"))
             {
-                sql = "SELECT permissao_id, tela, descricao_permissao FROM sis_permissoes p inner join sis_status s on (p.status_id = s.status_id) WHERE p.permissoes_Id = '" + valor + "'";
+                sql = "SELECT p.permissao_id, p.tela, p.descricao_permissao FROM sis_permissoes p inner join sis_status s on (p.status_id = s.status_id) WHERE p.permissoes_Id = '" + valor + "'";
             }
             if (pesquisa.Equals("Descrição"))
             {
-                sql = "SELECT permissao_id, tela, descricao_permissao FROM sis_permissoes p inner join sis_status s on (p.status_id = s.status_id) WHERE p.descricao_permissao like '%" + valor + "%'";
-            }
-            if (pesquisa.Equals("Tela"))
-            {
-                sql = "SELECT permissao_id, tela, descricao_permissao FROM sis_permissoes p inner join sis_status s on (p.status_id = s.status_id) WHERE p.tela like '%" + valor + "%'";
+                sql = "SELECT p.permissao_id, p.tela, p.descricao_permissao FROM sis_permissoes p inner join sis_status s on (p.status_id = s.status_id) WHERE p.descricao_permissao like '%" + valor + "%'";
             }
 
-            Pesquisa = sql + stringStatus;
+            Pesquisa = sql + stringStatus + ordem;
 
             MySqlDataAdapter da = new(Pesquisa, _conn.StringConexao);
             da.Fill(tabela);

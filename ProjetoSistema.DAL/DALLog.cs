@@ -18,7 +18,7 @@ namespace ProjetoSistema.DAL
             _conn = conn;
         }
 
-        public void Adicionar(ModelLog model)
+        public void GerarLog(int empresaId, ModelLog model)
         {
             try
             {
@@ -27,15 +27,19 @@ namespace ProjetoSistema.DAL
                     Connection = _conn.ObjetoConexao,
                     CommandText = "INSERT INTO logs SET " +
                                         "Empresa_Id = @empresa, " +
+                                        "data = @data, " +
                                         "tipo_log = @tipo, " +
                                         "tela = @tela, " +
+                                        "usuario = @usuario, " +
                                         "descricao = @descricao; " +
                                         "SELECT @@IDENTITY;",
                 };
 
-                cmd.Parameters.AddWithValue("@empresa", model.EmpresaId);
+                cmd.Parameters.AddWithValue("@empresa", empresaId);
+                cmd.Parameters.AddWithValue("@data", model.Data);
                 cmd.Parameters.AddWithValue("@tipo", model.TipoLog);
                 cmd.Parameters.AddWithValue("@tela", model.Tela);
+                cmd.Parameters.AddWithValue("@usuario", model.Usuario);
                 cmd.Parameters.AddWithValue("@descricao", model.Descricao);
                 _conn.Conectar();
                 model.LogId = Convert.ToInt32(cmd.ExecuteScalar());

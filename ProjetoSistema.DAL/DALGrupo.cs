@@ -117,33 +117,25 @@ namespace ProjetoSistema.DAL
             string stringStatus = "";
             string stringTipo = "";
 
-            if (status != "" && status != "Todos")
+            stringStatus = " and s.descricao_status = '" + status + "'";
+
+            if (status.Equals("Todos"))
             {
-                if (status == "Ativo")
-                {
-                    status = "1";
-                }
-                if (status == "Inativo")
-                {
-                    status = "2";
-                }
-
-                stringStatus = " and status_id = '" + status + "'";
-
+                stringStatus = " and s.status_id <> 3";
             }
 
             if (tipo != "" && tipo != "Todos")
             {
-                stringTipo = " and tipo_grupo = '" + tipo + "'";
+                stringTipo = " and g.tipo_grupo = '" + tipo + "'";
             }
 
             if (pesquisa.Equals("Código"))
             {
-                sql = @$"SELECT grupo_id, descricao_grupo FROM grp_grupos WHERE empresa_id = {empresaId} and Grupo_Id = '{valor}'";
+                sql = @$"SELECT g.grupo_id, g.descricao_grupo FROM grp_grupos g inner join sis_status s on (g.status_id = s.status_id) WHERE empresa_id = {empresaId} and Grupo_Id = '{valor}'";
             }
             if (pesquisa.Equals("Descrição"))
             {
-                sql = @$"SELECT grupo_id, descricao_grupo FROM grp_grupos WHERE empresa_id = {empresaId} and descricao_grupo like '%{valor}%'";
+                sql = @$"SELECT g.grupo_id, g.descricao_grupo FROM grp_grupos g inner join sis_status s on (g.status_id = s.status_id) WHERE empresa_id = {empresaId} and descricao_grupo like '%{valor}%'";
             }
 
             Pesquisa = sql + stringStatus + stringTipo;

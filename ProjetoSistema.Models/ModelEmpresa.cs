@@ -12,9 +12,9 @@ namespace ProjetoSistema.Model
         {
             EmpresaId = 0;
             StatusId = 0;
-            CpfCnpj = "";
-            RazaoSocial = "";
-            NomeFantasia = "";
+            CpfCnpj = String.Empty;
+            RazaoSocial = String.Empty;
+            NomeFantasia = String.Empty;
         }
         public ModelEmpresa(int empresaId, int statusId, string cpfCnpj, string razaoSocial, string nomeFantasia)
         {

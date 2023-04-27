@@ -13,7 +13,7 @@ namespace ProjetoSistema.Models
             MarcaId = 0;
             StatusId = 1;
             EmpresaId = 0;
-            DescricaoMarca = "";
+            DescricaoMarca = String.Empty;
         }
 
         public ModelMarca(int marcaId, int statusId, int empresaId, string descricaoMarca)

@@ -18,7 +18,7 @@ namespace ProjetoSistema.BLL
             this._conn = conn;
         }
 
-        public void Adicionar(ModelMarca obj)
+        public void Adicionar(int empresaId, ModelMarca obj)
         {
             if (obj.DescricaoMarca.Trim().Length.Equals(0))
             {
@@ -26,7 +26,7 @@ namespace ProjetoSistema.BLL
             }
 
             DALMarca d = new(_conn);
-            d.Adicionar(obj);
+            d.Adicionar(empresaId, obj);
         }
 
         public void Editar(ModelMarca obj)

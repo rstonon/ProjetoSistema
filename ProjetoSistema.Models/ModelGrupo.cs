@@ -13,8 +13,8 @@ namespace ProjetoSistema.Models
             GrupoId = 0;
             StatusId = 1;
             EmpresaId = 0;
-            NomeGrupo = "";
-            TipoGrupo = "";
+            NomeGrupo = String.Empty;
+            TipoGrupo = String.Empty;
         }
         public ModelGrupo(int grupoId, int statusId, int empresaId, string nomeGrupo, string tipoGrupo)
         {

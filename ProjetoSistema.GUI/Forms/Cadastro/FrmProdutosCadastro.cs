@@ -6,15 +6,15 @@ using ProjetoSistema.Models;
 
 namespace GUI
 {
-    public partial class FrmPerfisCadastro : Form
+    public partial class FrmProdutosCadastro : Form
     {
         public int codigo;
         public string operacao;
         public string origem;
         private int empresaId;
-        FrmPerfis form;
+        FrmProdutos form;
 
-        public FrmPerfisCadastro(FrmPerfis form)
+        public FrmProdutosCadastro(FrmProdutos form)
         {
             InitializeComponent();
             this.form = form;
@@ -38,23 +38,23 @@ namespace GUI
             {
                 try
                 {
-                    ModelPerfilUsuario model = new()
+                    ModelProduto model = new()
                     {
                         StatusId = Convert.ToInt32(cbxStatus.SelectedValue),
                         EmpresaId = empresaId,
-                        NomePerfil = textBox2.Text,
+                        DescricaoProduto = textBox2.Text,
                     };
 
                     DALConexao conn = new(DadosConexao.StringConexao);
-                    BLLPerfilUsuario bll = new(conn);
+                    BLLProduto bll = new(conn);
 
                     if (operacao.Equals("Inclusão"))
                     {
-                        bll.Adicionar(model);
+                        bll.Adicionar(EmpresaConfig.empresaId, model);
                     }
                     else
                     {
-                        model.PerfilUsuarioId = Convert.ToInt32(textBox1.Text);
+                        model.ProdutoId = Convert.ToInt32(textBox1.Text);
                         bll.Editar(model);
                     }
                     this.LimparDados();
@@ -82,7 +82,7 @@ namespace GUI
             Cancelar();
         }
 
-        private void FrmPermissoesCadastro_Load(object sender, EventArgs e)
+        private void FrmProdutoCadastro_Load(object sender, EventArgs e)
         {
             int[] statusId = new int[2];
             statusId[0] = 1;
@@ -94,9 +94,21 @@ namespace GUI
             cbxStatus.DisplayMember = "descricao_status";
             cbxStatus.ValueMember = "status_id";
 
-            //cbxStatus.SelectedValue = 1;
+            BLLTipoProduto bllTipoProduto = new(conn);
+            cbxTipoProduto.DataSource = bllTipoProduto.PesquisaSql();
+            cbxTipoProduto.DisplayMember = "descricao_tipo_produto";
+            cbxTipoProduto.ValueMember = "tipo_produto_id";
 
             textBox1.Text = this.codigo.ToString();
+
+            if (!operacao.Equals("Inclusão") && !UsuarioConfig.TemPermissao("product.edit"))
+            {
+                btnSalvar.Enabled = false;
+            }
+            if (UsuarioConfig.TemPermissao("product.view"))
+            {
+                pnDados.Enabled = false;
+            }
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -106,14 +118,12 @@ namespace GUI
                 try
                 {
                     DALConexao conn = new(DadosConexao.StringConexao);
-                    BLLPerfilUsuario bll = new(conn);
-                    ModelPerfilUsuario model = bll.Abrir(EmpresaConfig.empresaId, codigo);
-                    textBox1.Text = model.PerfilUsuarioId.ToString();
+                    BLLProduto bll = new(conn);
+                    ModelProduto model = bll.Abrir(EmpresaConfig.empresaId, codigo);
+                    textBox1.Text = model.ProdutoId.ToString();
                     cbxStatus.SelectedValue = model.StatusId;
+                    textBox2.Text = model.DescricaoProduto;
                     empresaId = model.EmpresaId;
-                    textBox2.Text = model.NomePerfil;
-
-                    CarregarPermissoes();
                 }
                 catch (Exception ex)
                 {
@@ -151,56 +161,61 @@ namespace GUI
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            FrmPermissoes f = new();
-            f.codigoPerfil = Convert.ToInt32(textBox1.Text);
-            f.pnSelecionar.Visible = true;
-            f.ShowDialog();
-            CarregarPermissoes();
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            ExcluirPermissao();
-        }
-
         private void button3_Click(object sender, EventArgs e)
         {
-            CarregarPermissoes();
-        }
-
-        public void CarregarPermissoes()
-        {
-            DALConexao conn = new(DadosConexao.StringConexao);
-            BLLPermissaoPerfil bll = new(conn);
-            DgvDados.DataSource = bll.PesquisaSql(EmpresaConfig.empresaId, Convert.ToInt32(textBox1.Text), textBox4.Text);
-
-            DgvDados.Columns[0].HeaderText = "Código";
-            DgvDados.Columns[0].Width = 80;
-            DgvDados.Columns[0].Visible = false;
-            DgvDados.Columns[1].HeaderText = "Tela";
-            DgvDados.Columns[1].Width = 250;
-            DgvDados.Columns[2].HeaderText = "Descrição";
-            DgvDados.Columns[2].Width = 550;
-        }
-
-        public void ExcluirPermissao()
-        {
-            try
+            using (FrmGrupos frm = new())
             {
-                DialogResult d = MessageBox.Show("Deseja realmente excluir a permissão?", "Aviso", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                if (d.ToString().Equals("Yes"))
+                frm.pnSelecionar.Visible = true;
+                frm.tipo = "Grupo de Produtos";
+                frm.ShowDialog();
+                textBox10.Text = frm.codigo.ToString();
+            }
+        }
+
+        private void textBox10_TextChanged(object sender, EventArgs e)
+        {
+            if (!String.IsNullOrEmpty(textBox10.Text))
+            {
+                try
                 {
                     DALConexao conn = new(DadosConexao.StringConexao);
-                    BLLPermissaoPerfil bll = new(conn);
-                    bll.Excluir(EmpresaConfig.empresaId, Convert.ToInt32(DgvDados.CurrentRow.Cells[0].Value.ToString()));
-                    CarregarPermissoes();
+                    BLLGrupo bll = new(conn);
+                    ModelGrupo model = bll.Abrir(EmpresaConfig.empresaId, Convert.ToInt32(textBox10.Text));
+                    textBox3.Text = model.NomeGrupo.ToString();
+                }
+                catch (Exception)
+                {
+                    throw;
                 }
             }
-            catch (Exception ex)
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            using (FrmGrupos frm = new())
             {
-                throw ex;
+                frm.pnSelecionar.Visible = true;
+                frm.tipo = "Sub Grupo de Produtos";
+                frm.ShowDialog();
+                textBox11.Text = frm.codigo.ToString();
+            }
+        }
+
+        private void textBox11_TextChanged(object sender, EventArgs e)
+        {
+            if (!String.IsNullOrEmpty(textBox11.Text))
+            {
+                try
+                {
+                    DALConexao conn = new(DadosConexao.StringConexao);
+                    BLLGrupo bll = new(conn);
+                    ModelGrupo model = bll.Abrir(EmpresaConfig.empresaId, Convert.ToInt32(textBox11.Text));
+                    textBox4.Text = model.NomeGrupo.ToString();
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
             }
         }
     }

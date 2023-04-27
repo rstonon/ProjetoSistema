@@ -13,7 +13,7 @@ namespace ProjetoSistema.Model
             PerfilUsuarioId = 0;
             StatusId = 1;
             EmpresaId = 0;
-            NomePerfil = "";
+            NomePerfil = String.Empty;
         }
 
         public ModelPerfilUsuario(int perfilUsuarioId, int statusId, int empresaId, string nomePerfil)

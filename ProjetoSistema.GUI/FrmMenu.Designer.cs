@@ -34,6 +34,7 @@
             cadastrosToolStripMenuItem = new ToolStripMenuItem();
             gruposToolStripMenuItem = new ToolStripMenuItem();
             marcasToolStripMenuItem = new ToolStripMenuItem();
+            produtosToolStripMenuItem = new ToolStripMenuItem();
             financeiroToolStripMenuItem = new ToolStripMenuItem();
             gestãoToolStripMenuItem = new ToolStripMenuItem();
             fiscalToolStripMenuItem = new ToolStripMenuItem();
@@ -66,7 +67,7 @@
             // 
             // cadastrosToolStripMenuItem
             // 
-            cadastrosToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { gruposToolStripMenuItem, marcasToolStripMenuItem });
+            cadastrosToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { gruposToolStripMenuItem, marcasToolStripMenuItem, produtosToolStripMenuItem });
             cadastrosToolStripMenuItem.Name = "cadastrosToolStripMenuItem";
             cadastrosToolStripMenuItem.Size = new Size(71, 20);
             cadastrosToolStripMenuItem.Text = "Cadastros";
@@ -84,6 +85,13 @@
             marcasToolStripMenuItem.Size = new Size(184, 22);
             marcasToolStripMenuItem.Text = "Marcas";
             marcasToolStripMenuItem.Click += marcasToolStripMenuItem_Click;
+            // 
+            // produtosToolStripMenuItem
+            // 
+            produtosToolStripMenuItem.Name = "produtosToolStripMenuItem";
+            produtosToolStripMenuItem.Size = new Size(184, 22);
+            produtosToolStripMenuItem.Text = "Produtos";
+            produtosToolStripMenuItem.Click += produtosToolStripMenuItem_Click;
             // 
             // financeiroToolStripMenuItem
             // 
@@ -186,5 +194,6 @@
         private StatusStrip statusStrip1;
         private ToolStripMenuItem perfisDeUsuárioToolStripMenuItem;
         public ToolStripStatusLabel usuarioStripStatusLabel;
+        private ToolStripMenuItem produtosToolStripMenuItem;
     }
 }

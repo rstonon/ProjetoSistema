@@ -1,6 +1,7 @@
 ﻿using ProjetoSistema.BLL;
 using ProjetoSistema.DAL;
 using ProjetoSistema.GUI.Classes;
+using ProjetoSistema.Model;
 using ProjetoSistema.Models;
 
 namespace GUI
@@ -11,6 +12,7 @@ namespace GUI
         public string tipoGrupo;
         public string operacao;
         public string origem;
+        private int empresaId;
         FrmGrupos form;
 
         public FrmGruposCadastro(FrmGrupos form)
@@ -39,6 +41,7 @@ namespace GUI
                     ModelGrupo model = new()
                     {
                         StatusId = Convert.ToInt32(cbxStatus.SelectedValue),
+                        EmpresaId = empresaId,
                         TipoGrupo = comboBox1.Text,
                         NomeGrupo = textBox2.Text
                     };
@@ -49,11 +52,39 @@ namespace GUI
                     if (operacao.Equals("Inclusão"))
                     {
                         bll.Adicionar(model);
+
+                        ModelLog modelLog = new()
+                        {
+                            EmpresaId = EmpresaConfig.empresaId,
+                            Data = DateTime.Now,
+                            TipoLog = 'C',
+                            Tela = "Grupos",
+                            Usuario = UsuarioConfig.nomeUsuario,
+                            Descricao = @$"Adicionou o Grupo: {model.GrupoId} - {model.NomeGrupo}",
+                        };
+
+                        DALConexao connLog = new(DadosConexao.StringConexaoLog);
+                        BLLLog bllLog = new(connLog);
+                        bllLog.GerarLog(EmpresaConfig.empresaId, modelLog);
                     }
                     else
                     {
                         model.GrupoId = Convert.ToInt32(textBox1.Text);
                         bll.Editar(model);
+
+                        ModelLog modelLog = new()
+                        {
+                            EmpresaId = EmpresaConfig.empresaId,
+                            Data = DateTime.Now,
+                            TipoLog = 'U',
+                            Tela = "Grupos",
+                            Usuario = UsuarioConfig.nomeUsuario,
+                            Descricao = @$"Alterou o cadastro do Grupo: {model.GrupoId} - {model.NomeGrupo}",
+                        };
+
+                        DALConexao connLog = new(DadosConexao.StringConexaoLog);
+                        BLLLog bllLog = new(connLog);
+                        bllLog.GerarLog(EmpresaConfig.empresaId, modelLog);
                     }
                     this.LimparDados();
                     this.Close();
@@ -67,6 +98,20 @@ namespace GUI
             else
             {
                 this.Close();
+
+                ModelLog modelLog = new()
+                {
+                    EmpresaId = EmpresaConfig.empresaId,
+                    Data = DateTime.Now,
+                    TipoLog = 'G',
+                    Tela = "Grupos",
+                    Usuario = UsuarioConfig.nomeUsuario,
+                    Descricao = "Cancelou o salvamento do Grupo: " + textBox1.Text + " - " + textBox2.Text,
+                };
+
+                DALConexao connLog = new(DadosConexao.StringConexaoLog);
+                BLLLog bllLog = new(connLog);
+                bllLog.GerarLog(EmpresaConfig.empresaId, modelLog);
             }
         }
 
@@ -82,9 +127,13 @@ namespace GUI
 
         private void FrmGrupoCadastro_Load(object sender, EventArgs e)
         {
+            int[] statusId = new int[2];
+            statusId[0] = 1;
+            statusId[1] = 2;
+
             DALConexao conn = new(DadosConexao.StringConexao);
             BLLStatus bll = new(conn);
-            cbxStatus.DataSource = bll.PesquisaSql();
+            cbxStatus.DataSource = bll.PesquisaSql(statusId);
             cbxStatus.DisplayMember = "descricao_status";
             cbxStatus.ValueMember = "status_id";
 
@@ -120,6 +169,7 @@ namespace GUI
                     cbxStatus.SelectedValue = model.StatusId;
                     comboBox1.Text = model.TipoGrupo;
                     textBox2.Text = model.NomeGrupo;
+                    empresaId = model.EmpresaId;
                 }
                 catch (Exception ex)
                 {
